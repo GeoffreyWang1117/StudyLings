@@ -1,6 +1,6 @@
 """
 Studylings Suite Dashboard
-Usage: cd rustlings-suite && python -m studylings
+Usage: cd StudyLings && python -m studylings
 Shows aggregate progress across all projects.
 """
 

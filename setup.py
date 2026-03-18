@@ -7,8 +7,10 @@ from setuptools import setup, find_packages
 setup(
     name="studylings",
     version="0.1.0",
-    author="Studylings Team",
-    description="Shared framework for rustlings-style educational projects",
+    author="Geoffrey Wang",
+    author_email="",
+    url="https://github.com/GeoffreyWang1117/StudyLings",
+    description="Shared framework for interactive self-study projects. Inspired by Rustlings.",
     python_requires=">=3.9",
     packages=find_packages(include=["studylings", "studylings.*"]),
     install_requires=[

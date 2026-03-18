@@ -1,10 +1,10 @@
-# Rustlings Suite
+# StudyLings
 
 **14 interactive self-study projects, 854 exercises, one unified framework.**
 
-Learn by doing — fill in the blanks, fix the code, watch it pass. Inspired by [Rust Rustlings](https://github.com/rust-lang/rustlings).
+Learn by doing — fill in the blanks, fix the code, watch it pass. Inspired by [Rustlings](https://github.com/rust-lang/rustlings).
 
-🌐 **[Live Demo Page](https://geoffreywang1117.github.io/rustlings-suite/)**
+🌐 **[Project Page](https://geoffreywang1117.github.io/StudyLings/)**
 
 ## Projects
 
@@ -13,11 +13,11 @@ Learn by doing — fill in the blanks, fix the code, watch it pass. Inspired by 
 | **Algolings** | 132 | Python | GC, concurrency, crypto, compilers, ML |
 | **Cudalings** | 105 | CUDA C++ | GPU programming: kernels to ray tracing |
 | **Economlings** | 100 | Python | Economics: micro, macro, finance, behavioral |
-| **Physics Rustlings** | 100 | Python | Classical mechanics to quantum field theory |
+| **Physicslings** | 100 | Python | Classical mechanics to quantum field theory |
 | **Genlings** | 68 | Python | GenAI: Transformers, GANs, Diffusion, CLIP |
-| **ADM Algorithms** | 68 | C++ | Algorithm Design Manual exercises |
-| **Sutton RL** | 54 | Python | Reinforcement learning: bandits to RLHF |
-| **ODS Rustlings** | 48 | Python | Data structures: arrays, trees, graphs |
+| **ADMlings** | 68 | C++ | Algorithm Design Manual exercises |
+| **SuttonRLings** | 54 | Python | Reinforcement learning: bandits to RLHF |
+| **ODSlings** | 48 | Python | Data structures: arrays, trees, graphs |
 | **Debuglings** | 39 | C | GDB/LLDB debugging techniques |
 | **Quantumlings** | 34 | Python | Quantum computing with Qiskit |
 | **Asynclings** | 30 | TypeScript | Async programming: Promises, async/await |
@@ -28,8 +28,8 @@ Learn by doing — fill in the blanks, fix the code, watch it pass. Inspired by 
 ## Quick Start
 
 ```bash
-git clone https://github.com/GeoffreyWang1117/rustlings-suite.git
-cd rustlings-suite
+git clone https://github.com/GeoffreyWang1117/StudyLings.git
+cd StudyLings
 pip install -e .
 
 # Pick a project
@@ -57,14 +57,14 @@ Every project responds to the same 9 commands:
 ## Suite Dashboard
 
 ```bash
-cd rustlings-suite
+cd StudyLings
 python -m studylings           # aggregate progress across all 14 projects
 ```
 
 ## Architecture
 
 ```
-rustlings-suite/
+StudyLings/
 ├── studylings/              # Shared core framework
 │   ├── cli.py               # 9 unified Click commands
 │   ├── exercise.py          # Discovery & metadata (.py/.cpp/.cu/.ts/.c)
@@ -97,3 +97,7 @@ rustlings-suite/
 2. Create `<your_project>/<package>/__main__.py` that calls `studylings.cli.main(config)`
 3. Add exercises to `<your_project>/exercises/<chapter>/`
 4. Done — your project gets all 9 CLI commands automatically
+
+## Author
+
+**[Geoffrey Wang](https://github.com/GeoffreyWang1117)**
