@@ -1,0 +1,26 @@
+# Build directories
+build/
+cmake-build-*/
+*.out
+*.o
+*.a
+*.so
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Progress tracking
+.cudalings/
+
+# Compiled binaries
+cudalings
+test_*
+
+# CUDA compiled files
+*.ptx
+*.cubin
+*.fatbin

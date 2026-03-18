@@ -1,0 +1,77 @@
+/* Custom styles for JAXlings documentation */
+
+:root {
+  --md-primary-fg-color: #673ab7;
+  --md-accent-fg-color: #9c27b0;
+}
+
+/* Code blocks */
+.highlight {
+  border-radius: 4px;
+}
+
+/* Math equations */
+.arithmatex {
+  padding: 0.5em;
+  overflow-x: auto;
+}
+
+/* Admonitions */
+.admonition {
+  border-radius: 4px;
+  margin: 1.5em 0;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+}
+
+th, td {
+  padding: 0.8em;
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+th {
+  background-color: var(--md-primary-fg-color--light);
+  font-weight: 600;
+}
+
+/* Exercise cards */
+.exercise-card {
+  border: 2px solid var(--md-primary-fg-color);
+  border-radius: 8px;
+  padding: 1.5em;
+  margin: 1.5em 0;
+  background-color: var(--md-code-bg-color);
+}
+
+.exercise-card h3 {
+  margin-top: 0;
+  color: var(--md-primary-fg-color);
+}
+
+/* Knowledge points */
+.knowledge-point {
+  background-color: var(--md-accent-fg-color--transparent);
+  border-left: 4px solid var(--md-accent-fg-color);
+  padding: 1em;
+  margin: 1em 0;
+}
+
+/* Math formula box */
+.math-formula {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1em;
+  margin: 1em 0;
+  text-align: center;
+}
+
+[data-md-color-scheme="slate"] .math-formula {
+  background-color: #2d2d2d;
+  border-color: #444;
+}

@@ -1,0 +1,32 @@
+# Physics Rustlings - Dependencies
+# Core scientific computing
+numpy>=1.24.0
+scipy>=1.10.0
+sympy>=1.12
+
+# Visualization
+matplotlib>=3.7.0
+plotly>=5.14.0
+ipywidgets>=8.0.0
+
+# Quantum mechanics
+qutip>=4.7.0
+# qiskit>=0.43.0  # Optional: for quantum computing exercises
+
+# PDE solving
+# fenics  # Optional: install via conda for complex PDE
+py-pde>=0.30.0
+
+# Relativity
+einsteinpy>=0.4.0
+
+# Animation
+manim>=0.17.0  # Optional: for advanced animations
+
+# Utilities
+rich>=13.0.0  # Beautiful terminal output
+click>=8.1.0  # CLI interface
+watchdog>=3.0.0  # File watching for auto-run
+
+# Testing
+pytest>=7.3.0

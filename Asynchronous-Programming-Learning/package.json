@@ -1,0 +1,41 @@
+{
+  "name": "async-learnings",
+  "version": "1.0.0",
+  "description": "一个类似 rustlings 的 TypeScript 异步编程学习框架",
+  "main": "dist/index.js",
+  "bin": {
+    "async-learnings": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "watch": "tsx src/cli.ts watch",
+    "run": "tsx src/cli.ts run",
+    "verify": "tsx src/cli.ts verify",
+    "list": "tsx src/cli.ts list",
+    "reset": "tsx src/cli.ts reset",
+    "hint": "tsx src/cli.ts hint",
+    "solution": "tsx src/cli.ts solution",
+    "next": "tsx src/cli.ts next",
+    "test:solutions": "tsx scripts/verify-solutions.ts"
+  },
+  "keywords": [
+    "async",
+    "promises",
+    "learning",
+    "tutorial",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0",
+    "tsx": "^4.7.0"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "chokidar": "^3.5.3",
+    "commander": "^11.1.0"
+  }
+}

@@ -1,0 +1,139 @@
+site_name: JAXlings 学习文档
+site_description: JAX 从入门到精通的完整学习指南
+site_author: JAXlings Contributors
+site_url: https://jaxlings.readthedocs.io
+
+repo_name: JAXlings
+repo_url: https://github.com/yourusername/jaxlings
+
+theme:
+  name: material
+  language: zh
+  palette:
+    - scheme: default
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/brightness-7
+        name: 切换到深色模式
+    - scheme: slate
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/brightness-4
+        name: 切换到浅色模式
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - content.code.annotate
+    - content.code.copy
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+  - admonition
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra_css:
+  - assets/custom.css
+
+nav:
+  - 首页: index.md
+  - 快速开始: getting-started.md
+  - 教程:
+    - 01. JAX 入门:
+      - 概述: 01_intro/overview.md
+      - Hello JAX: 01_intro/hello_jax.md
+      - 数组创建: 01_intro/arrays.md
+      - 基本运算: 01_intro/operations.md
+    - 02. 数组操作:
+      - 概述: 02_arrays/overview.md
+      - 数组索引: 02_arrays/indexing.md
+      - 形状变换: 02_arrays/reshaping.md
+      - 广播机制: 02_arrays/broadcasting.md
+      - 高级索引: 02_arrays/advanced_indexing.md
+    - 03. JAX 变换:
+      - 概述: 03_transformations/overview.md
+      - 自动微分: 03_transformations/grad.md
+      - 值与梯度: 03_transformations/value_and_grad.md
+      - JIT 编译: 03_transformations/jit.md
+      - 向量化: 03_transformations/vmap.md
+      - 组合变换: 03_transformations/combining.md
+    - 04. 神经网络:
+      - 概述: 04_neural_networks/overview.md
+      - 线性层: 04_neural_networks/linear_layer.md
+      - 激活函数: 04_neural_networks/activation.md
+      - 损失函数: 04_neural_networks/loss_functions.md
+      - 多层感知机: 04_neural_networks/mlp.md
+      - 训练循环: 04_neural_networks/training.md
+    - 05. 高级主题:
+      - 概述: 05_advanced/overview.md
+      - 自定义梯度: 05_advanced/custom_grad.md
+      - 优化器: 05_advanced/optimizers.md
+      - 卷积网络: 05_advanced/cnn.md
+      - 批归一化: 05_advanced/batch_norm.md
+      - 注意力机制: 05_advanced/attention.md
+    - 06. 随机数系统:
+      - 概述: 06_random/overview.md
+      - PRNG 基础: 06_random/prng_basics.md
+      - 高级采样: 06_random/advanced_sampling.md
+    - 07. PyTree 数据结构:
+      - 概述: 07_pytrees/overview.md
+      - PyTree 基础: 07_pytrees/basics.md
+    - 08. 控制流:
+      - 概述: 08_control_flow/overview.md
+      - 条件操作: 08_control_flow/cond.md
+      - 循环操作: 08_control_flow/scan.md
+    - 09. 并行计算:
+      - 概述: 09_parallel/overview.md
+      - 数据并行: 09_parallel/pmap.md
+    - 10. 深度学习高级:
+      - 概述: 10_deep_learning/overview.md
+      - ResNet 模块: 10_deep_learning/resnet.md
+      - Transformer: 10_deep_learning/transformer.md
+  - 数学基础:
+    - 线性代数: math/linear_algebra.md
+    - 微积分: math/calculus.md
+    - 概率论: math/probability.md
+    - 优化理论: math/optimization.md
+  - API 参考:
+    - JAX 核心: api/core.md
+    - 神经网络: api/nn.md
+    - 优化: api/optim.md
+  - 附录:
+    - 常见问题: appendix/faq.md
+    - 性能优化: appendix/performance.md
+    - 最佳实践: appendix/best_practices.md
+
+plugins:
+  - search:
+      lang:
+        - zh
+        - en
+  - minify:
+      minify_html: true

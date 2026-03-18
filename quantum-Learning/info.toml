@@ -1,0 +1,406 @@
+# Quantum Rustlings - 量子编程学习路径
+# 从入门到前沿的量子计算练习题
+
+[[exercises]]
+name = "intro01_qubit"
+path = "exercises/intro/01_qubit.py"
+mode = "test"
+hint = """
+量子比特是量子计算的基本单位。在经典计算中，比特只能是0或1，
+但量子比特可以处于 |0⟩ 和 |1⟩ 的叠加态。
+
+尝试创建一个单量子比特电路，并将其初始化为 |0⟩ 态。
+使用 QuantumCircuit(1) 创建一个包含1个量子比特的电路。
+"""
+
+[[exercises]]
+name = "intro02_superposition"
+path = "exercises/intro/02_superposition.py"
+mode = "test"
+hint = """
+Hadamard 门（H门）可以将 |0⟩ 态转换为叠加态：
+H|0⟩ = (|0⟩ + |1⟩)/√2
+
+这意味着测量时有50%概率得到0，50%概率得到1。
+使用 qc.h(0) 对第0个量子比特应用 Hadamard 门。
+"""
+
+[[exercises]]
+name = "intro03_measurement"
+path = "exercises/intro/03_measurement.py"
+mode = "test"
+hint = """
+测量会使量子态坍缩到经典态。
+使用 qc.measure_all() 测量所有量子比特。
+使用模拟器运行电路并获取测量结果。
+"""
+
+[[exercises]]
+name = "intro04_gates"
+path = "exercises/intro/04_gates.py"
+mode = "test"
+hint = """
+基本量子门：
+- X 门：量子 NOT 门，翻转 |0⟩ ↔ |1⟩
+- Y 门：绕 Y 轴旋转
+- Z 门：相位翻转
+- H 门：创建叠加态
+
+尝试使用这些门来操控量子比特。
+"""
+
+[[exercises]]
+name = "entanglement05_bell_state"
+path = "exercises/entanglement/05_bell_state.py"
+mode = "test"
+hint = """
+贝尔态是最简单的纠缠态：
+|Φ+⟩ = (|00⟩ + |11⟩)/√2
+
+创建步骤：
+1. 对第一个量子比特应用 H 门
+2. 使用 CNOT 门连接两个量子比特：qc.cx(0, 1)
+"""
+
+[[exercises]]
+name = "entanglement06_ghz_state"
+path = "exercises/entanglement/06_ghz_state.py"
+mode = "test"
+hint = """
+GHZ 态是多量子比特纠缠态：
+|GHZ⟩ = (|000⟩ + |111⟩)/√2
+
+可以通过扩展贝尔态的方法创建。
+"""
+
+[[exercises]]
+name = "entanglement07_teleportation"
+path = "exercises/entanglement/07_teleportation.py"
+mode = "test"
+hint = """
+量子隐形传态利用纠缠来传输量子态。
+需要：
+1. 创建贝尔对
+2. 进行贝尔测量
+3. 根据测量结果应用修正操作
+"""
+
+[[exercises]]
+name = "algorithms08_deutsch"
+path = "exercises/algorithms/08_deutsch.py"
+mode = "test"
+hint = """
+Deutsch 算法是第一个展示量子优势的算法。
+它只需一次查询就能判断函数是常数还是平衡的，
+而经典算法需要两次。
+"""
+
+[[exercises]]
+name = "algorithms09_deutsch_jozsa"
+path = "exercises/algorithms/09_deutsch_jozsa.py"
+mode = "test"
+hint = """
+Deutsch-Jozsa 算法是 Deutsch 算法的推广。
+对于 n 位输入，量子算法只需1次查询，
+经典算法最坏需要 2^(n-1)+1 次。
+"""
+
+[[exercises]]
+name = "algorithms10_bernstein_vazirani"
+path = "exercises/algorithms/10_bernstein_vazirani.py"
+mode = "test"
+hint = """
+Bernstein-Vazirani 算法用于找到隐藏字符串。
+经典需要 n 次查询，量子只需 1 次。
+"""
+
+[[exercises]]
+name = "algorithms11_grover"
+path = "exercises/algorithms/11_grover.py"
+mode = "test"
+hint = """
+Grover 搜索算法在未排序数据库中搜索，
+提供二次加速：O(√N) vs O(N)。
+
+关键组件：
+1. Oracle（标记目标）
+2. Diffusion operator（振幅放大）
+"""
+
+[[exercises]]
+name = "algorithms12_qft"
+path = "exercises/algorithms/12_qft.py"
+mode = "test"
+hint = """
+量子傅立叶变换（QFT）是许多量子算法的核心。
+它是经典 FFT 的量子版本，但具有指数级加速。
+
+QFT 是 Shor 算法的关键部分。
+"""
+
+[[exercises]]
+name = "algorithms13_shor"
+path = "exercises/algorithms/13_shor.py"
+mode = "test"
+hint = """
+Shor 算法可以在多项式时间内分解大整数，
+这威胁到了现代加密系统（如 RSA）。
+
+主要步骤：
+1. 选择随机数 a
+2. 使用 QFT 找到周期 r
+3. 使用 r 计算因子
+"""
+
+[[exercises]]
+name = "error_correction14_bit_flip"
+path = "exercises/error_correction/14_bit_flip.py"
+mode = "test"
+hint = """
+比特翻转码是最简单的量子纠错码。
+使用3个量子比特来编码1个逻辑量子比特，
+可以纠正单个比特翻转错误。
+"""
+
+[[exercises]]
+name = "error_correction15_phase_flip"
+path = "exercises/error_correction/15_phase_flip.py"
+mode = "test"
+hint = """
+相位翻转码纠正相位错误。
+原理类似比特翻转码，但在不同的基中工作。
+"""
+
+[[exercises]]
+name = "error_correction16_shor_code"
+path = "exercises/error_correction/16_shor_code.py"
+mode = "test"
+hint = """
+Shor 码（9量子比特码）可以同时纠正
+比特翻转和相位翻转错误。
+
+它结合了比特翻转码和相位翻转码的思想。
+"""
+
+[[exercises]]
+name = "error_correction17_syndrome"
+path = "exercises/error_correction/17_syndrome.py"
+mode = "test"
+hint = """
+综合征测量（Syndrome Measurement）用于诊断错误
+而不破坏量子态。这是量子纠错的核心技术。
+"""
+
+[[exercises]]
+name = "variational18_ansatz"
+path = "exercises/variational/18_ansatz.py"
+mode = "test"
+hint = """
+参数化量子电路（Ansatz）是变分算法的基础。
+通过调整参数来优化目标函数。
+
+常见的 ansatz 包括：
+- Hardware-efficient ansatz
+- UCCSD ansatz (化学应用)
+"""
+
+[[exercises]]
+name = "variational19_vqe"
+path = "exercises/variational/19_vqe.py"
+mode = "test"
+hint = """
+VQE（变分量子本征求解器）用于找到哈密顿量的基态能量。
+这是量子化学中的重要应用。
+
+VQE = 参数化电路 + 经典优化器
+"""
+
+[[exercises]]
+name = "variational20_qaoa"
+path = "exercises/variational/20_qaoa.py"
+mode = "test"
+hint = """
+QAOA（量子近似优化算法）用于解决组合优化问题。
+它在 NISQ 设备上特别有用。
+
+应用包括：MaxCut、旅行商问题等。
+"""
+
+[[exercises]]
+name = "variational21_qml"
+path = "exercises/variational/21_qml.py"
+mode = "test"
+hint = """
+量子机器学习结合了量子计算和机器学习。
+量子神经网络（QNN）可以用于分类和回归任务。
+"""
+
+[[exercises]]
+name = "nisq22_simulation"
+path = "exercises/nisq/22_simulation.py"
+mode = "test"
+hint = """
+量子模拟是量子计算机的重要应用之一。
+可以模拟量子系统的演化，这对经典计算机很困难。
+"""
+
+[[exercises]]
+name = "nisq23_chemistry"
+path = "exercises/nisq/23_chemistry.py"
+mode = "test"
+hint = """
+量子化学应用：计算分子的基态能量和性质。
+使用 VQE 结合化学哈密顿量。
+
+示例：H2, LiH, H2O 等小分子。
+"""
+
+[[exercises]]
+name = "nisq24_optimization"
+path = "exercises/nisq/24_optimization.py"
+mode = "test"
+hint = """
+量子优化应用于实际问题：
+- 投资组合优化
+- 车辆路径问题
+- 资源分配
+
+使用 QAOA 或量子退火方法。
+"""
+
+[[exercises]]
+name = "frontiers25_fault_tolerant"
+path = "exercises/frontiers/25_fault_tolerant.py"
+mode = "test"
+hint = """
+容错量子计算是实现通用量子计算机的关键。
+需要：
+- 高效的纠错码（如表面码）
+- 容错门操作
+- Magic state distillation
+"""
+
+[[exercises]]
+name = "frontiers26_surface_code"
+path = "exercises/frontiers/26_surface_code.py"
+mode = "test"
+hint = """
+表面码是最有前途的量子纠错码之一，
+因为它只需要近邻耦合，适合实际硬件实现。
+
+Google 和 IBM 的量子计算机都在研究表面码。
+"""
+
+[[exercises]]
+name = "frontiers27_qgan"
+path = "exercises/frontiers/27_qgan.py"
+mode = "test"
+hint = """
+量子生成对抗网络（QGAN）是 2023-2024 的研究热点。
+结合了 GAN 和量子电路，用于生成量子数据。
+"""
+
+[[exercises]]
+name = "frontiers28_qnn_advanced"
+path = "exercises/frontiers/28_qnn_advanced.py"
+mode = "test"
+hint = """
+高级量子神经网络架构：
+- Quantum Convolutional NN
+- Quantum Recurrent NN
+- Attention mechanisms in QML
+"""
+
+[[exercises]]
+name = "frontiers29_quantum_advantage"
+path = "exercises/frontiers/29_quantum_advantage.py"
+mode = "test"
+hint = """
+量子优势实验（如 Google 的量子霸权实验）。
+理解随机电路采样和交叉熵基准测试。
+"""
+
+[[exercises]]
+name = "frontiers30_ldpc_codes"
+path = "exercises/frontiers/30_ldpc_codes.py"
+mode = "test"
+hint = """
+低密度奇偶校验（LDPC）量子码是 2024-2025 的前沿研究。
+相比表面码，LDPC码可以有更好的编码率。
+
+这是容错量子计算的最新进展！
+"""
+
+[[exercises]]
+name = "advanced31_vqls"
+path = "exercises/advanced/31_vqls.py"
+mode = "test"
+hint = """
+VQLS (Variational Quantum Linear Solver) 是HHL算法的NISQ友好版本。
+通过变分优化求解线性方程组 Ax = b。
+
+关键思想：
+- 最小化 ||A|ψ(θ)⟩ - |b⟩||²
+- 不需要相位估计（浅电路）
+- 适合当前量子设备
+
+2023-2024年的研究热点，有实际应用前景。
+"""
+
+[[exercises]]
+name = "advanced32_adapt_vqe"
+path = "exercises/advanced/32_adapt_vqe.py"
+mode = "test"
+hint = """
+ADAPT-VQE 动态构建最优的ansatz。
+
+优势：
+- 避免贫瘠高原问题
+- 只添加必要的算符
+- 电路深度自适应
+
+算法流程：
+1. 计算梯度选择算符
+2. 添加到电路
+3. 优化参数
+4. 重复直到收敛
+
+Grimsley et al. 2019年提出，2023-2024持续改进。
+"""
+
+[[exercises]]
+name = "advanced33_error_mitigation"
+path = "exercises/advanced/33_error_mitigation.py"
+mode = "test"
+hint = """
+量子误差缓解是NISQ时代的关键技术。
+
+主要方法：
+- Zero-Noise Extrapolation (ZNE)
+- Probabilistic Error Cancellation (PEC)
+- Measurement Error Mitigation
+- Clifford Data Regression (2023新)
+
+不需要额外量子比特，通过后处理减少误差影响。
+2023-2024年快速发展，有多种新技术。
+"""
+
+[[exercises]]
+name = "advanced34_quantum_natural_gradient"
+path = "exercises/advanced/34_quantum_natural_gradient.py"
+mode = "test"
+hint = """
+量子自然梯度考虑参数空间的几何结构。
+
+核心概念：
+- Quantum Fisher Information Matrix
+- 参数空间流形
+- 自然梯度 = F^{-1} ∇E
+
+优势：
+- 收敛更快
+- 避免贫瘠高原
+- 适合变分算法优化
+
+2020-2024年重要进展，已在VQE、QAOA等算法中应用。
+"""

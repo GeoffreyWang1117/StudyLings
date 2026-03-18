@@ -1,0 +1,548 @@
+{
+  "exercises": [
+    {
+      "name": "00_intro_hello",
+      "path": "exercises/00_basics/00_hello.py",
+      "category": "00 基础知识",
+      "difficulty": 1,
+      "description": "欢迎来到 Genlings! 这是你的第一个练习。让我们从一个简单的 Python 程序开始。",
+      "hint": "只需要在 print() 函数中填入正确的字符串即可。"
+    },
+    {
+      "name": "01_numpy_basics",
+      "path": "exercises/00_basics/01_numpy_basics.py",
+      "category": "00 基础知识",
+      "difficulty": 1,
+      "description": "NumPy 是深度学习的基础。学习如何创建和操作张量。",
+      "hint": "使用 np.array() 创建数组，使用 np.zeros() 和 np.ones() 创建特殊数组。"
+    },
+    {
+      "name": "02_tensor_basics",
+      "path": "exercises/00_basics/02_tensor_basics.py",
+      "category": "00 基础知识",
+      "difficulty": 1,
+      "description": "PyTorch 张量是深度学习的核心数据结构。学习基本的张量操作。",
+      "hint": "PyTorch 张量操作与 NumPy 类似，使用 torch.tensor(), torch.zeros() 等。"
+    },
+    {
+      "name": "03_autograd",
+      "path": "exercises/00_basics/03_autograd.py",
+      "category": "00 基础知识",
+      "difficulty": 2,
+      "description": "自动微分是深度学习训练的核心。理解 PyTorch 的 autograd 机制。",
+      "hint": "设置 requires_grad=True 来追踪计算，使用 .backward() 计算梯度。"
+    },
+    {
+      "name": "04_nn_module",
+      "path": "exercises/00_basics/04_nn_module.py",
+      "category": "00 基础知识",
+      "difficulty": 2,
+      "description": "nn.Module 是 PyTorch 中构建神经网络的基类。学习如何定义和使用模型。",
+      "hint": "继承 nn.Module，在 __init__ 中定义层，在 forward 中定义前向传播。"
+    },
+    {
+      "name": "05_optimizer",
+      "path": "exercises/00_basics/05_optimizer.py",
+      "category": "00 基础知识",
+      "difficulty": 2,
+      "description": "优化器负责更新模型参数。理解 SGD 和 Adam 的原理。",
+      "hint": "SGD: θ = θ - lr * grad; Adam 结合了动量和自适应学习率。"
+    },
+    {
+      "name": "06_lr_schedule",
+      "path": "exercises/00_basics/06_lr_schedule.py",
+      "category": "00 基础知识",
+      "difficulty": 2,
+      "description": "学习率调度器在训练过程中动态调整学习率。",
+      "hint": "常用策略: StepLR, CosineAnnealing, Warmup 等。"
+    },
+    {
+      "name": "07_loss_functions",
+      "path": "exercises/00_basics/07_loss_functions.py",
+      "category": "00 基础知识",
+      "difficulty": 2,
+      "description": "损失函数衡量模型预测与真实值的差距。",
+      "hint": "MSE 用于回归，CrossEntropy 用于分类，BCE 用于二分类。"
+    },
+    {
+      "name": "08_word_embeddings",
+      "path": "exercises/01_text/01_embeddings.py",
+      "category": "01 文本生成基础",
+      "difficulty": 2,
+      "description": "词嵌入将离散的词语映射到连续的向量空间。这是所有 NLP 模型的基础。",
+      "hint": "使用 nn.Embedding(vocab_size, embedding_dim) 创建嵌入层。"
+    },
+    {
+      "name": "09_positional_encoding",
+      "path": "exercises/01_text/02_positional_encoding.py",
+      "category": "01 文本生成基础",
+      "difficulty": 3,
+      "description": "位置编码让模型能够理解序列中词语的位置信息。这是 Transformer 的关键组件。",
+      "hint": "使用正弦和余弦函数：sin(pos/10000^(2i/d_model)) 和 cos(pos/10000^(2i/d_model))。"
+    },
+    {
+      "name": "10_rnn_cell",
+      "path": "exercises/01_text/03_rnn_cell.py",
+      "category": "01 文本生成基础",
+      "difficulty": 2,
+      "description": "循环神经网络(RNN)通过隐藏状态来处理序列数据。理解 RNN 单元的工作原理。",
+      "hint": "RNN 的核心公式: h_t = tanh(W_ih * x_t + W_hh * h_{t-1} + b)"
+    },
+    {
+      "name": "11_lstm_cell",
+      "path": "exercises/01_text/04_lstm_cell.py",
+      "category": "01 文本生成基础",
+      "difficulty": 3,
+      "description": "LSTM 通过门控机制解决了 RNN 的梯度消失问题。实现 LSTM 单元的核心逻辑。",
+      "hint": "LSTM 有三个门：遗忘门(forget)、输入门(input)、输出门(output)，都使用 sigmoid 激活。"
+    },
+    {
+      "name": "12_gru_cell",
+      "path": "exercises/01_text/04_gru_cell.py",
+      "category": "01 文本生成基础",
+      "difficulty": 3,
+      "description": "GRU 是 LSTM 的简化版本，使用更少的门控但效果相近。",
+      "hint": "GRU 有两个门：更新门和重置门。h = (1-z)*h + z*h̃"
+    },
+    {
+      "name": "13_seq2seq",
+      "path": "exercises/01_text/05_seq2seq.py",
+      "category": "01 文本生成基础",
+      "difficulty": 3,
+      "description": "序列到序列模型用于机器翻译、文本摘要等任务。",
+      "hint": "Encoder 编码输入序列，Decoder 基于上下文生成输出序列。"
+    },
+    {
+      "name": "14_beam_search",
+      "path": "exercises/01_text/06_beam_search.py",
+      "category": "01 文本生成基础",
+      "difficulty": 3,
+      "description": "束搜索是序列生成中常用的解码策略。",
+      "hint": "保留 beam_size 个最佳候选，每步扩展并选择最优的。"
+    },
+    {
+      "name": "15_bert",
+      "path": "exercises/01_text/07_bert.py",
+      "category": "01 文本生成基础",
+      "difficulty": 4,
+      "description": "BERT 是双向 Transformer 编码器，通过 MLM 预训练。",
+      "hint": "[CLS] token 用于分类，[MASK] 用于 MLM 预训练。"
+    },
+    {
+      "name": "16_attention_score",
+      "path": "exercises/02_attention/01_attention_score.py",
+      "category": "02 注意力机制",
+      "difficulty": 3,
+      "description": "注意力机制是现代深度学习的核心。学习如何计算注意力分数。",
+      "hint": "缩放点积注意力: Attention(Q,K,V) = softmax(QK^T / sqrt(d_k)) * V"
+    },
+    {
+      "name": "17_self_attention",
+      "path": "exercises/02_attention/02_self_attention.py",
+      "category": "02 注意力机制",
+      "difficulty": 3,
+      "description": "自注意力让序列中的每个位置都能关注其他所有位置。这是 Transformer 的核心。",
+      "hint": "自注意力中 Q、K、V 都来自同一个输入，通过不同的线性变换得到。"
+    },
+    {
+      "name": "18_multi_head_attention",
+      "path": "exercises/02_attention/03_multi_head_attention.py",
+      "category": "02 注意力机制",
+      "difficulty": 4,
+      "description": "多头注意力让模型能够关注来自不同表示子空间的信息。",
+      "hint": "将输入分成多个头，每个头独立计算注意力，最后拼接并投影。"
+    },
+    {
+      "name": "19_causal_mask",
+      "path": "exercises/02_attention/04_causal_mask.py",
+      "category": "02 注意力机制",
+      "difficulty": 3,
+      "description": "因果掩码确保模型只能看到当前位置之前的信息，这对于自回归生成至关重要。",
+      "hint": "使用上三角矩阵作为掩码，将未来位置设为负无穷。"
+    },
+    {
+      "name": "20_transformer_ffn",
+      "path": "exercises/03_transformer/01_feed_forward.py",
+      "category": "03 Transformer",
+      "difficulty": 3,
+      "description": "前馈网络(FFN)是 Transformer 块的重要组成部分。通常使用两层线性变换。",
+      "hint": "FFN(x) = max(0, xW_1 + b_1)W_2 + b_2，中间维度通常是输入的4倍。"
+    },
+    {
+      "name": "21_layer_norm",
+      "path": "exercises/03_transformer/02_layer_norm.py",
+      "category": "03 Transformer",
+      "difficulty": 3,
+      "description": "层归一化对于稳定 Transformer 的训练至关重要。理解其计算过程。",
+      "hint": "LayerNorm: y = (x - mean) / sqrt(var + eps) * gamma + beta"
+    },
+    {
+      "name": "22_transformer_block",
+      "path": "exercises/03_transformer/03_transformer_block.py",
+      "category": "03 Transformer",
+      "difficulty": 4,
+      "description": "Transformer 块由多头注意力和前馈网络组成，加上残差连接和层归一化。",
+      "hint": "标准结构: x = LayerNorm(x + Attention(x)), x = LayerNorm(x + FFN(x))"
+    },
+    {
+      "name": "23_decoder_only",
+      "path": "exercises/03_transformer/04_decoder_only.py",
+      "category": "03 Transformer",
+      "difficulty": 4,
+      "description": "Decoder-only 架构是 GPT 系列模型的基础。实现一个完整的解码器。",
+      "hint": "解码器由多个 Transformer 块堆叠而成，使用因果掩码进行自回归生成。"
+    },
+    {
+      "name": "24_tokenizer_bpe",
+      "path": "exercises/04_gpt/01_tokenizer_bpe.py",
+      "category": "04 GPT",
+      "difficulty": 3,
+      "description": "BPE (Byte Pair Encoding) 是现代语言模型常用的分词算法。理解其工作原理。",
+      "hint": "BPE 通过迭代合并最频繁出现的字符对来构建词表。"
+    },
+    {
+      "name": "25_gpt_model",
+      "path": "exercises/04_gpt/02_gpt_model.py",
+      "category": "04 GPT",
+      "difficulty": 4,
+      "description": "GPT 是一个基于 Transformer 解码器的自回归语言模型。实现完整的 GPT 架构。",
+      "hint": "GPT = Token Embedding + Position Embedding + N × Transformer Block + LM Head"
+    },
+    {
+      "name": "26_kv_cache",
+      "path": "exercises/04_gpt/03_kv_cache.py",
+      "category": "04 GPT",
+      "difficulty": 4,
+      "description": "KV 缓存是加速自回归生成的关键技术。理解如何缓存和复用键值对。",
+      "hint": "在生成时缓存之前计算的 K 和 V，每次只需计算新 token 的 K、V 和 Q。"
+    },
+    {
+      "name": "27_sampling_strategies",
+      "path": "exercises/04_gpt/04_sampling.py",
+      "category": "04 GPT",
+      "difficulty": 3,
+      "description": "采样策略决定了文本生成的多样性和质量。实现常用的采样方法。",
+      "hint": "常用策略: Top-k (保留概率最高的k个), Top-p (核采样), Temperature (调整分布锐度)"
+    },
+    {
+      "name": "28_rotary_embedding",
+      "path": "exercises/04_gpt/05_rope.py",
+      "category": "04 GPT",
+      "difficulty": 5,
+      "description": "旋转位置编码(RoPE)是现代大模型如 LLaMA 使用的位置编码方式。",
+      "hint": "RoPE 通过旋转矩阵将位置信息编码到 Q 和 K 中，具有更好的外推性。"
+    },
+    {
+      "name": "29_rmsnorm",
+      "path": "exercises/04_gpt/06_rmsnorm.py",
+      "category": "04 GPT",
+      "difficulty": 3,
+      "description": "RMSNorm 是 LayerNorm 的简化版本，被 LLaMA 等模型采用。",
+      "hint": "RMSNorm: y = x / sqrt(mean(x^2) + eps) * gamma，不减去均值。"
+    },
+    {
+      "name": "30_grouped_query_attention",
+      "path": "exercises/04_gpt/07_gqa.py",
+      "category": "04 GPT",
+      "difficulty": 4,
+      "description": "GQA 是 MHA 和 MQA 的折中方案，在效率和性能间取得平衡。",
+      "hint": "GQA 让多个查询头共享同一组键值头，减少 KV 缓存的内存占用。"
+    },
+    {
+      "name": "31_conv_basics",
+      "path": "exercises/05_image/01_conv_basics.py",
+      "category": "05 图像生成基础",
+      "difficulty": 2,
+      "description": "卷积是处理图像数据的基础操作。理解卷积层的工作原理。",
+      "hint": "nn.Conv2d(in_channels, out_channels, kernel_size) 定义2D卷积。"
+    },
+    {
+      "name": "32_transposed_conv",
+      "path": "exercises/05_image/02_transposed_conv.py",
+      "category": "05 图像生成基础",
+      "difficulty": 3,
+      "description": "转置卷积用于上采样，是图像生成中放大特征图的常用方法。",
+      "hint": "nn.ConvTranspose2d 可以将特征图的空间尺寸放大。"
+    },
+    {
+      "name": "33_autoencoder",
+      "path": "exercises/05_image/03_autoencoder.py",
+      "category": "05 图像生成基础",
+      "difficulty": 3,
+      "description": "自编码器学习数据的压缩表示。它由编码器和解码器组成。",
+      "hint": "编码器压缩输入到潜在空间，解码器从潜在空间重建输入。"
+    },
+    {
+      "name": "34_vae_reparameterization",
+      "path": "exercises/06_vae/01_reparameterization.py",
+      "category": "06 VAE",
+      "difficulty": 4,
+      "description": "重参数化技巧使得我们能够通过随机采样反向传播梯度。",
+      "hint": "z = mu + sigma * epsilon，其中 epsilon ~ N(0, 1)，这样梯度可以流过 mu 和 sigma。"
+    },
+    {
+      "name": "35_vae_loss",
+      "path": "exercises/06_vae/02_vae_loss.py",
+      "category": "06 VAE",
+      "difficulty": 4,
+      "description": "VAE 的损失函数由重建损失和 KL 散度两部分组成。",
+      "hint": "Loss = Reconstruction Loss + KL(q(z|x) || p(z))，KL 项鼓励潜在分布接近标准正态分布。"
+    },
+    {
+      "name": "36_vae_model",
+      "path": "exercises/06_vae/03_vae_model.py",
+      "category": "06 VAE",
+      "difficulty": 4,
+      "description": "实现完整的变分自编码器，能够生成新的图像样本。",
+      "hint": "编码器输出 mu 和 log_var，使用重参数化采样，解码器重建图像。"
+    },
+    {
+      "name": "37_gan_discriminator",
+      "path": "exercises/07_gan/01_discriminator.py",
+      "category": "07 GAN",
+      "difficulty": 3,
+      "description": "判别器的任务是区分真实样本和生成样本。它是一个二分类器。",
+      "hint": "判别器通常是一个卷积网络，输出一个标量表示输入为真实样本的概率。"
+    },
+    {
+      "name": "38_gan_generator",
+      "path": "exercises/07_gan/02_generator.py",
+      "category": "07 GAN",
+      "difficulty": 3,
+      "description": "生成器从随机噪声生成假样本，试图欺骗判别器。",
+      "hint": "生成器将低维噪声向量通过转置卷积逐步放大到图像尺寸。"
+    },
+    {
+      "name": "39_gan_loss",
+      "path": "exercises/07_gan/03_gan_loss.py",
+      "category": "07 GAN",
+      "difficulty": 4,
+      "description": "GAN 的训练是一个极小极大博弈。理解判别器和生成器的损失函数。",
+      "hint": "D 最大化: E[log D(x)] + E[log(1-D(G(z)))], G 最小化: E[log(1-D(G(z)))]"
+    },
+    {
+      "name": "40_dcgan",
+      "path": "exercises/07_gan/04_dcgan.py",
+      "category": "07 GAN",
+      "difficulty": 4,
+      "description": "DCGAN 引入了卷积架构和训练技巧，大大提升了 GAN 的稳定性。",
+      "hint": "使用批归一化、LeakyReLU、strided convolutions 代替 pooling。"
+    },
+    {
+      "name": "41_spectral_norm",
+      "path": "exercises/07_gan/05_spectral_norm.py",
+      "category": "07 GAN",
+      "difficulty": 4,
+      "description": "谱归一化通过约束权重的谱范数来稳定 GAN 训练。",
+      "hint": "通过幂迭代法估计权重矩阵的最大奇异值，并将权重除以它。"
+    },
+    {
+      "name": "42_cgan",
+      "path": "exercises/07_gan/05_cgan.py",
+      "category": "07 GAN",
+      "difficulty": 4,
+      "description": "条件 GAN 在生成过程中引入条件信息，实现可控生成。",
+      "hint": "G(z, c) 接收噪声和条件，D(x, c) 判断图像和条件是否匹配。"
+    },
+    {
+      "name": "43_stylegan",
+      "path": "exercises/07_gan/06_stylegan.py",
+      "category": "07 GAN",
+      "difficulty": 5,
+      "description": "StyleGAN 引入风格映射和 AdaIN，实现高质量可控生成。",
+      "hint": "Mapping Network 将 z 映射到 w 空间，AdaIN 注入风格。"
+    },
+    {
+      "name": "44_noise_schedule",
+      "path": "exercises/08_diffusion/01_noise_schedule.py",
+      "category": "08 Diffusion",
+      "difficulty": 3,
+      "description": "扩散模型通过逐步添加噪声来破坏数据。噪声调度定义了这个过程。",
+      "hint": "常用线性调度: beta_t 从 beta_1 线性增加到 beta_T。"
+    },
+    {
+      "name": "45_forward_diffusion",
+      "path": "exercises/08_diffusion/02_forward_diffusion.py",
+      "category": "08 Diffusion",
+      "difficulty": 3,
+      "description": "前向扩散过程逐步向数据添加高斯噪声，直到变成纯噪声。",
+      "hint": "q(x_t|x_0) = N(x_t; sqrt(alpha_bar_t)*x_0, (1-alpha_bar_t)*I)"
+    },
+    {
+      "name": "46_unet_architecture",
+      "path": "exercises/08_diffusion/03_unet.py",
+      "category": "08 Diffusion",
+      "difficulty": 4,
+      "description": "U-Net 是扩散模型中常用的去噪网络架构，具有对称的编码器-解码器结构。",
+      "hint": "U-Net 通过跳跃连接将编码器的特征传递给解码器，保留细节信息。"
+    },
+    {
+      "name": "47_time_embedding",
+      "path": "exercises/08_diffusion/04_time_embedding.py",
+      "category": "08 Diffusion",
+      "difficulty": 3,
+      "description": "时间步嵌入让去噪网络知道当前处于扩散过程的哪个阶段。",
+      "hint": "类似于 Transformer 的位置编码，使用正弦函数编码时间步。"
+    },
+    {
+      "name": "48_reverse_diffusion",
+      "path": "exercises/08_diffusion/05_reverse_diffusion.py",
+      "category": "08 Diffusion",
+      "difficulty": 4,
+      "description": "反向扩散从噪声逐步去噪，生成清晰的样本。这是采样过程的核心。",
+      "hint": "x_{t-1} = (1/sqrt(alpha_t)) * (x_t - (1-alpha_t)/sqrt(1-alpha_bar_t) * noise_pred) + sigma_t * z"
+    },
+    {
+      "name": "49_ddpm_loss",
+      "path": "exercises/08_diffusion/06_ddpm_loss.py",
+      "category": "08 Diffusion",
+      "difficulty": 4,
+      "description": "DDPM 训练目标是让模型预测添加到数据中的噪声。",
+      "hint": "Loss = E[||epsilon - epsilon_theta(x_t, t)||^2]，即预测噪声与真实噪声的 MSE。"
+    },
+    {
+      "name": "50_ddim_sampling",
+      "path": "exercises/08_diffusion/07_ddim.py",
+      "category": "08 Diffusion",
+      "difficulty": 5,
+      "description": "DDIM 通过确定性采样大大加速了生成过程，可以跳过中间步骤。",
+      "hint": "DDIM 使用非马尔可夫过程，可以在更少的步骤内生成高质量样本。"
+    },
+    {
+      "name": "51_cfg",
+      "path": "exercises/08_diffusion/08_cfg.py",
+      "category": "08 Diffusion",
+      "difficulty": 4,
+      "description": "Classifier-Free Guidance 在不需要额外分类器的情况下实现条件生成。",
+      "hint": "noise_pred = noise_uncond + guidance_scale * (noise_cond - noise_uncond)"
+    },
+    {
+      "name": "52_controlnet",
+      "path": "exercises/08_diffusion/08_controlnet.py",
+      "category": "08 Diffusion",
+      "difficulty": 4,
+      "description": "ControlNet 添加空间条件控制，如边缘、深度、姿态等。",
+      "hint": "复制 UNet 编码器，使用 zero convolution 连接。"
+    },
+    {
+      "name": "53_img2img",
+      "path": "exercises/08_diffusion/09_img2img.py",
+      "category": "08 Diffusion",
+      "difficulty": 4,
+      "description": "图像到图像生成，基于输入图像生成变体。",
+      "hint": "对输入图像添加噪声到某个时间步，然后从该步开始去噪。"
+    },
+    {
+      "name": "54_patch_embedding",
+      "path": "exercises/09_multimodal/01_patch_embedding.py",
+      "category": "09 多模态基础",
+      "difficulty": 3,
+      "description": "ViT 将图像分割成小块并嵌入，让 Transformer 能够处理图像。",
+      "hint": "将图像分成 P×P 的小块，每个小块展平后通过线性层映射到嵌入维度。"
+    },
+    {
+      "name": "55_vit_architecture",
+      "path": "exercises/09_multimodal/02_vit.py",
+      "category": "09 多模态基础",
+      "difficulty": 4,
+      "description": "Vision Transformer (ViT) 将 Transformer 直接应用于图像分类任务。",
+      "hint": "ViT = Patch Embedding + [CLS] Token + Position Embedding + Transformer Encoder"
+    },
+    {
+      "name": "56_contrastive_loss",
+      "path": "exercises/09_multimodal/03_contrastive_loss.py",
+      "category": "09 多模态基础",
+      "difficulty": 4,
+      "description": "对比学习通过拉近正样本对、推远负样本对来学习表示。",
+      "hint": "InfoNCE Loss: -log(exp(sim(z_i, z_j)/tau) / sum(exp(sim(z_i, z_k)/tau)))"
+    },
+    {
+      "name": "57_clip_encoders",
+      "path": "exercises/10_clip/01_clip_encoders.py",
+      "category": "10 CLIP",
+      "difficulty": 4,
+      "description": "CLIP 使用独立的图像和文本编码器，将两种模态映射到共享空间。",
+      "hint": "图像编码器可以是 ViT 或 ResNet，文本编码器是 Transformer。"
+    },
+    {
+      "name": "58_clip_loss",
+      "path": "exercises/10_clip/02_clip_loss.py",
+      "category": "10 CLIP",
+      "difficulty": 4,
+      "description": "CLIP 使用对称的对比损失，同时从图像和文本两个方向进行匹配。",
+      "hint": "损失 = (image_to_text_loss + text_to_image_loss) / 2"
+    },
+    {
+      "name": "59_clip_inference",
+      "path": "exercises/10_clip/03_clip_inference.py",
+      "category": "10 CLIP",
+      "difficulty": 3,
+      "description": "CLIP 可以进行零样本图像分类，无需额外训练即可识别新类别。",
+      "hint": "将类别名转换为文本嵌入，计算与图像嵌入的相似度，选择最相似的类别。"
+    },
+    {
+      "name": "60_cross_attention",
+      "path": "exercises/11_stable_diffusion/01_cross_attention.py",
+      "category": "11 Stable Diffusion",
+      "difficulty": 4,
+      "description": "交叉注意力让图像生成能够基于文本条件。Q 来自图像，K/V 来自文本。",
+      "hint": "CrossAttention(x, context) = softmax(Q_x @ K_context^T / sqrt(d)) @ V_context"
+    },
+    {
+      "name": "61_latent_diffusion",
+      "path": "exercises/11_stable_diffusion/02_latent_diffusion.py",
+      "category": "11 Stable Diffusion",
+      "difficulty": 5,
+      "description": "潜在扩散在压缩的潜在空间而非像素空间进行扩散，大大提高了效率。",
+      "hint": "使用预训练的 VAE 编码器将图像压缩到潜在空间，扩散后再解码回图像。"
+    },
+    {
+      "name": "62_sd_unet",
+      "path": "exercises/11_stable_diffusion/03_sd_unet.py",
+      "category": "11 Stable Diffusion",
+      "difficulty": 5,
+      "description": "Stable Diffusion 的 U-Net 包含自注意力和交叉注意力，处理图像和文本。",
+      "hint": "每个 U-Net 块包含: ResBlock -> SelfAttention -> CrossAttention -> FFN"
+    },
+    {
+      "name": "63_text_to_image",
+      "path": "exercises/11_stable_diffusion/04_text_to_image.py",
+      "category": "11 Stable Diffusion",
+      "difficulty": 5,
+      "description": "整合所有组件，实现完整的文本到图像生成流程。",
+      "hint": "流程: 文本->CLIP编码->U-Net去噪(+CFG)->VAE解码->图像"
+    },
+    {
+      "name": "64_lora",
+      "path": "exercises/12_llm_advanced/00_lora.py",
+      "category": "12 LLM 进阶",
+      "difficulty": 4,
+      "description": "LoRA 是参数高效微调方法，通过低秩分解减少可训练参数。",
+      "hint": "W' = W + BA，其中 B 和 A 是低秩矩阵，只训练 A 和 B。"
+    },
+    {
+      "name": "65_flash_attention",
+      "path": "exercises/12_llm_advanced/01_flash_attention.py",
+      "category": "12 LLM 进阶",
+      "difficulty": 5,
+      "description": "Flash Attention 是 IO 感知的精确注意力算法，显著减少显存占用。",
+      "hint": "通过分块计算和在线 softmax 避免存储完整的 N×N 注意力矩阵。"
+    },
+    {
+      "name": "66_quantization",
+      "path": "exercises/12_llm_advanced/02_quantization.py",
+      "category": "12 LLM 进阶",
+      "difficulty": 4,
+      "description": "量化将模型从高精度转换为低精度 (INT8/INT4)。",
+      "hint": "对称量化: scale = max(|x|) / qmax, x_q = round(x / scale)"
+    },
+    {
+      "name": "67_moe",
+      "path": "exercises/12_llm_advanced/03_moe.py",
+      "category": "12 LLM 进阶",
+      "difficulty": 5,
+      "description": "混合专家通过稀疏激活增加模型容量而不显著增加计算量。",
+      "hint": "门控网络选择 top-k 专家，只激活选中的专家进行计算。"
+    }
+  ]
+}

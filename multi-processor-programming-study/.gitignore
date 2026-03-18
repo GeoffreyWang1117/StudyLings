@@ -1,0 +1,61 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+target/
+.mvn/
+*.iml
+.idea/
+.settings/
+.classpath
+.project
+
+# C++
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+build/
+cmake-build-*/
+*.out
+*.dSYM/
+
+# IDEs
+.vscode/
+.vs/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+.directory
+
+# Test outputs
+*.log
+*.tmp
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+
+# Google Test
+googletest-*/
+lib/
+
+# Compiled binaries
+exercises/cpp/01_basics/exercise*
+exercises/cpp/02_mutual_exclusion/exercise*
+exercises/cpp/*/exercise*
+exercises/cpp/*/*_tests
+!exercises/cpp/**/*.cpp
+!exercises/cpp/**/*.h
+!exercises/cpp/**/*.hpp

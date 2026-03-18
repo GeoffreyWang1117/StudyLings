@@ -1,0 +1,293 @@
+# JAXlings Exercise Configuration
+# This file defines all exercises and their order
+
+[[exercises]]
+name = "intro01_hello_jax"
+path = "exercises/01_intro/intro01_hello_jax.py"
+mode = "test"
+hint = """
+JAX is a library for high-performance numerical computing.
+Start by importing JAX and creating a simple array.
+Use jax.numpy (jnp) instead of regular numpy!
+"""
+
+[[exercises]]
+name = "intro02_arrays"
+path = "exercises/01_intro/intro02_arrays.py"
+mode = "test"
+hint = """
+JAX arrays are similar to NumPy arrays but are immutable.
+Learn to create and manipulate JAX arrays.
+"""
+
+[[exercises]]
+name = "intro03_operations"
+path = "exercises/01_intro/intro03_operations.py"
+mode = "test"
+hint = """
+JAX provides all standard array operations.
+Remember: JAX arrays are immutable, so operations return new arrays.
+"""
+
+[[exercises]]
+name = "arrays01_indexing"
+path = "exercises/02_arrays/arrays01_indexing.py"
+mode = "test"
+hint = """
+Array indexing in JAX works like NumPy.
+Use slicing and advanced indexing to access array elements.
+"""
+
+[[exercises]]
+name = "arrays02_reshaping"
+path = "exercises/02_arrays/arrays02_reshaping.py"
+mode = "test"
+hint = """
+Learn to reshape and manipulate array dimensions.
+Use jnp.reshape(), jnp.transpose(), etc.
+"""
+
+[[exercises]]
+name = "arrays03_broadcasting"
+path = "exercises/02_arrays/arrays03_broadcasting.py"
+mode = "test"
+hint = """
+Broadcasting allows operations on arrays of different shapes.
+Understand how JAX broadcasts arrays automatically.
+"""
+
+[[exercises]]
+name = "arrays04_advanced_indexing"
+path = "exercises/02_arrays/arrays04_advanced_indexing.py"
+mode = "test"
+hint = """
+Use .at[] for functional array updates in JAX.
+Remember: arrays are immutable, .at[] returns a new array!
+"""
+
+[[exercises]]
+name = "transform01_grad"
+path = "exercises/03_transformations/transform01_grad.py"
+mode = "test"
+hint = """
+jax.grad computes gradients of functions.
+It returns a function that computes the gradient.
+"""
+
+[[exercises]]
+name = "transform02_value_and_grad"
+path = "exercises/03_transformations/transform02_value_and_grad.py"
+mode = "test"
+hint = """
+jax.value_and_grad returns both the function value and gradient.
+Very useful for optimization!
+"""
+
+[[exercises]]
+name = "transform03_jit"
+path = "exercises/03_transformations/transform03_jit.py"
+mode = "test"
+hint = """
+jax.jit compiles functions for faster execution.
+Use it to speed up your computations!
+"""
+
+[[exercises]]
+name = "transform04_vmap"
+path = "exercises/03_transformations/transform04_vmap.py"
+mode = "test"
+hint = """
+jax.vmap vectorizes functions automatically.
+It's like a smart loop that's much faster!
+"""
+
+[[exercises]]
+name = "transform05_combining"
+path = "exercises/03_transformations/transform05_combining.py"
+mode = "test"
+hint = """
+JAX transformations can be combined!
+Try jit(vmap(grad(...))) for maximum performance.
+"""
+
+[[exercises]]
+name = "nn01_linear_layer"
+path = "exercises/04_neural_networks/nn01_linear_layer.py"
+mode = "test"
+hint = """
+Implement a simple linear layer: y = Wx + b
+Use jnp.dot for matrix multiplication.
+"""
+
+[[exercises]]
+name = "nn02_activation"
+path = "exercises/04_neural_networks/nn02_activation.py"
+mode = "test"
+hint = """
+Implement common activation functions.
+Use jax.nn module for ready-made activations!
+"""
+
+[[exercises]]
+name = "nn03_loss_functions"
+path = "exercises/04_neural_networks/nn03_loss_functions.py"
+mode = "test"
+hint = """
+Implement MSE and cross-entropy loss.
+These are fundamental for training neural networks.
+"""
+
+[[exercises]]
+name = "nn04_simple_mlp"
+path = "exercises/04_neural_networks/nn04_simple_mlp.py"
+mode = "test"
+hint = """
+Build a multi-layer perceptron.
+Chain multiple linear layers with activations.
+"""
+
+[[exercises]]
+name = "nn05_training_loop"
+path = "exercises/04_neural_networks/nn05_training_loop.py"
+mode = "test"
+hint = """
+Implement a basic training loop with gradient descent.
+Use jax.grad to compute gradients and update parameters.
+"""
+
+[[exercises]]
+name = "advanced01_custom_grad"
+path = "exercises/05_advanced/advanced01_custom_grad.py"
+mode = "test"
+hint = """
+Define custom gradients using jax.custom_vjp.
+Useful for implementing special backprop rules.
+"""
+
+[[exercises]]
+name = "advanced02_optimizer"
+path = "exercises/05_advanced/advanced02_optimizer.py"
+mode = "test"
+hint = """
+Implement Adam optimizer from scratch.
+Track momentum and use exponential moving averages.
+"""
+
+[[exercises]]
+name = "advanced03_cnn"
+path = "exercises/05_advanced/advanced03_cnn.py"
+mode = "test"
+hint = """
+Build a convolutional neural network.
+Use jax.lax.conv for convolution operations.
+"""
+
+[[exercises]]
+name = "advanced04_batch_norm"
+path = "exercises/05_advanced/advanced04_batch_norm.py"
+mode = "test"
+hint = """
+Implement batch normalization layer.
+Remember to handle training and inference modes differently!
+"""
+
+[[exercises]]
+name = "advanced05_attention"
+path = "exercises/05_advanced/advanced05_attention.py"
+mode = "test"
+hint = """
+Implement multi-head attention mechanism.
+This is the core of Transformer models!
+"""
+
+# ===== 06. Random Numbers =====
+
+[[exercises]]
+name = "random01_prng_basics"
+path = "exercises/06_random/random01_prng_basics.py"
+mode = "test"
+hint = """
+JAX uses explicit PRNG keys instead of global random state.
+Remember to split keys for independent random operations!
+Use jax.random.split to create new keys.
+"""
+
+[[exercises]]
+name = "random02_advanced_sampling"
+path = "exercises/06_random/random02_advanced_sampling.py"
+mode = "test"
+hint = """
+Learn advanced sampling techniques:
+- Categorical distributions
+- Multivariate normal
+- Gumbel-max trick
+Use vmap for batched random generation!
+"""
+
+# ===== 07. PyTrees =====
+
+[[exercises]]
+name = "pytree01_basics"
+path = "exercises/07_pytrees/pytree01_basics.py"
+mode = "test"
+hint = """
+PyTrees are nested container structures.
+Use jax.tree_util.tree_map to apply functions to all leaves.
+Very useful for model parameters!
+"""
+
+# ===== 08. Control Flow =====
+
+[[exercises]]
+name = "control01_cond"
+path = "exercises/08_control_flow/control01_cond.py"
+mode = "test"
+hint = """
+Use lax.cond for conditional operations in JIT-compiled code.
+Regular Python if/else doesn't work well with JIT!
+Both branches must return same shape/dtype.
+"""
+
+[[exercises]]
+name = "control02_scan"
+path = "exercises/08_control_flow/control02_scan.py"
+mode = "test"
+hint = """
+lax.scan is JAX's efficient loop construct.
+Use it for RNNs, cumulative operations, and sequential processing.
+Much faster than Python for loops in JIT code!
+"""
+
+# ===== 09. Parallel Computation =====
+
+[[exercises]]
+name = "parallel01_pmap"
+path = "exercises/09_parallel/parallel01_pmap.py"
+mode = "test"
+hint = """
+pmap runs code in parallel across multiple devices.
+Use axis_name with lax.psum for collective operations.
+Foundation of data-parallel training!
+"""
+
+# ===== 10. Deep Learning Advanced =====
+
+[[exercises]]
+name = "dl01_resnet_block"
+path = "exercises/10_deep_learning/dl01_resnet_block.py"
+mode = "test"
+hint = """
+Implement ResNet residual blocks with skip connections.
+Skip connections help gradients flow in deep networks.
+Learn bottleneck blocks for efficiency!
+"""
+
+[[exercises]]
+name = "dl02_transformer_complete"
+path = "exercises/10_deep_learning/dl02_transformer_complete.py"
+mode = "test"
+hint = """
+Build a complete Transformer encoder from scratch!
+Key components: multi-head attention, FFN, layer norm, positional encoding.
+This architecture powers modern LLMs!
+"""

@@ -1,0 +1,7 @@
+# Python dependencies for Traditional Important Algorithms
+
+# For reading info.toml
+toml>=0.10.2
+
+# Optional: for better colored output
+colorama>=0.4.6; platform_system=="Windows"

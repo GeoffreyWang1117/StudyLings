@@ -1,0 +1,1073 @@
+# Traditional Important Algorithms - Exercise Information
+
+# Category 1: Garbage Collection and Memory Management
+[[exercises]]
+name = "gc01_reference_counting"
+path = "exercises/01_gc_and_memory/gc01_reference_counting.rs"
+mode = "test"
+hint = """
+Reference counting tracks the number of references to an object.
+When the count reaches zero, the object can be freed.
+Don't forget to handle cycles!"""
+
+[[exercises]]
+name = "gc02_mark_sweep"
+path = "exercises/01_gc_and_memory/gc02_mark_sweep.rs"
+mode = "test"
+hint = """
+Mark-Sweep has two phases:
+1. Mark: traverse from roots and mark all reachable objects
+2. Sweep: free all unmarked objects"""
+
+[[exercises]]
+name = "gc03_copying_gc"
+path = "exercises/01_gc_and_memory/gc03_copying_gc.rs"
+mode = "test"
+hint = """
+Copying GC divides memory into two spaces.
+Copy live objects from 'from-space' to 'to-space', then swap."""
+
+[[exercises]]
+name = "gc04_generational_gc"
+path = "exercises/01_gc_and_memory/gc04_generational_gc.rs"
+mode = "test"
+hint = """
+Most objects die young. Separate objects into generations
+and collect younger generations more frequently."""
+
+[[exercises]]
+name = "gc05_tricolor_marking"
+path = "exercises/01_gc_and_memory/gc05_tricolor_marking.rs"
+mode = "test"
+hint = """
+Three colors: White (unvisited), Gray (visited but not scanned),
+Black (visited and scanned). This enables incremental collection."""
+
+[[exercises]]
+name = "gc06_incremental_gc"
+path = "exercises/01_gc_and_memory/gc06_incremental_gc.rs"
+mode = "test"
+hint = """
+Break up GC work into small increments to avoid long pauses.
+Use tricolor marking to track progress."""
+
+[[exercises]]
+name = "gc07_concurrent_gc"
+path = "exercises/01_gc_and_memory/gc07_concurrent_gc.rs"
+mode = "test"
+hint = """
+Run GC concurrently with the mutator (application).
+Use write barriers to maintain consistency."""
+
+[[exercises]]
+name = "gc08_write_barrier"
+path = "exercises/01_gc_and_memory/gc08_write_barrier.rs"
+mode = "test"
+hint = """
+Write barriers intercept pointer writes to maintain GC invariants
+during concurrent or incremental collection."""
+
+[[exercises]]
+name = "gc09_region_allocation"
+path = "exercises/01_gc_and_memory/gc09_region_allocation.rs"
+mode = "test"
+hint = """
+Allocate objects in regions/arenas. Free entire regions at once.
+Good for phase-based allocation patterns."""
+
+[[exercises]]
+name = "gc10_escape_analysis"
+path = "exercises/01_gc_and_memory/gc10_escape_analysis.rs"
+mode = "test"
+hint = """
+Analyze whether objects escape their allocation context.
+Non-escaping objects can be stack-allocated."""
+
+# Category 2: Memory Models and Safety
+[[exercises]]
+name = "mm01_stack_vs_heap"
+path = "exercises/02_memory_models/mm01_stack_vs_heap.rs"
+mode = "test"
+hint = """
+Stack: LIFO, fast allocation, fixed size, automatic cleanup
+Heap: flexible size, manual management, slower allocation"""
+
+[[exercises]]
+name = "mm02_raii"
+path = "exercises/02_memory_models/mm02_raii.rs"
+mode = "test"
+hint = """
+Resource Acquisition Is Initialization: tie resource lifetime
+to object lifetime using constructors and destructors."""
+
+[[exercises]]
+name = "mm03_ownership_borrowing"
+path = "exercises/02_memory_models/mm03_ownership_borrowing.rs"
+mode = "test"
+hint = """
+Rust's ownership system: each value has one owner,
+borrows can be shared (&T) or mutable (&mut T)."""
+
+[[exercises]]
+name = "mm04_smart_pointers"
+path = "exercises/02_memory_models/mm04_smart_pointers.rs"
+mode = "test"
+hint = """
+Box<T>, Rc<T>, Arc<T>, RefCell<T> - each provides different
+ownership and borrowing semantics."""
+
+[[exercises]]
+name = "mm05_arena_allocator"
+path = "exercises/02_memory_models/mm05_arena_allocator.rs"
+mode = "test"
+hint = """
+Bump allocator: allocate from a large buffer, free all at once.
+Very fast allocation, no individual frees."""
+
+[[exercises]]
+name = "mm06_memory_pool"
+path = "exercises/02_memory_models/mm06_memory_pool.rs"
+mode = "test"
+hint = """
+Pre-allocate fixed-size blocks. Reuse freed blocks.
+Good for objects with similar sizes."""
+
+# Category 3: Concurrency and Scheduling
+[[exercises]]
+name = "con01_round_robin"
+path = "exercises/03_concurrency/con01_round_robin.rs"
+mode = "test"
+hint = """
+Each task gets a fixed time quantum.
+Rotate through tasks in circular order."""
+
+[[exercises]]
+name = "con02_priority_scheduling"
+path = "exercises/03_concurrency/con02_priority_scheduling.rs"
+mode = "test"
+hint = """
+Schedule tasks based on priority.
+Watch out for starvation of low-priority tasks!"""
+
+[[exercises]]
+name = "con03_mlfq"
+path = "exercises/03_concurrency/con03_mlfq.rs"
+mode = "test"
+hint = """
+Multi-Level Feedback Queue: tasks move between queues
+based on behavior. Short jobs finish quickly."""
+
+[[exercises]]
+name = "con04_preemptive_scheduling"
+path = "exercises/03_concurrency/con04_preemptive_scheduling.rs"
+mode = "test"
+hint = """
+Scheduler can interrupt running tasks.
+Requires timer interrupts or similar mechanism."""
+
+[[exercises]]
+name = "con05_cooperative_scheduling"
+path = "exercises/03_concurrency/con05_cooperative_scheduling.rs"
+mode = "test"
+hint = """
+Tasks voluntarily yield control.
+Simpler but one bad task can block everything."""
+
+[[exercises]]
+name = "con06_work_stealing"
+path = "exercises/03_concurrency/con06_work_stealing.rs"
+mode = "test"
+hint = """
+Idle workers steal tasks from busy workers' queues.
+Good load balancing for parallel workloads."""
+
+[[exercises]]
+name = "con07_actor_model"
+path = "exercises/03_concurrency/con07_actor_model.rs"
+mode = "test"
+hint = """
+Actors communicate via message passing.
+No shared state, each actor has a mailbox."""
+
+[[exercises]]
+name = "con08_event_loop"
+path = "exercises/03_concurrency/con08_event_loop.rs"
+mode = "test"
+hint = """
+Single-threaded concurrency via event queue.
+Process events one at a time, no blocking!"""
+
+[[exercises]]
+name = "con09_coroutine_scheduling"
+path = "exercises/03_concurrency/con09_coroutine_scheduling.rs"
+mode = "test"
+hint = """
+Lightweight user-space tasks that can suspend and resume.
+Scheduler manages coroutine execution."""
+
+[[exercises]]
+name = "con10_mn_threading"
+path = "exercises/03_concurrency/con10_mn_threading.rs"
+mode = "test"
+hint = """
+M user-level threads mapped to N OS threads.
+Go's runtime is a famous example."""
+
+# Category 4: OS and Resource Management
+[[exercises]]
+name = "os01_paging"
+path = "exercises/04_os_algorithms/os01_paging.rs"
+mode = "test"
+hint = """
+Divide memory into fixed-size pages.
+Virtual addresses map to physical frames."""
+
+[[exercises]]
+name = "os02_segmentation"
+path = "exercises/04_os_algorithms/os02_segmentation.rs"
+mode = "test"
+hint = """
+Divide memory into logical segments (code, data, stack).
+Each segment can grow independently."""
+
+[[exercises]]
+name = "os03_lru_cache"
+path = "exercises/04_os_algorithms/os03_lru_cache.rs"
+mode = "test"
+hint = """
+Least Recently Used: evict the page that hasn't been used
+for the longest time. Use a doubly-linked list + HashMap."""
+
+[[exercises]]
+name = "os04_fifo_replacement"
+path = "exercises/04_os_algorithms/os04_fifo_replacement.rs"
+mode = "test"
+hint = """
+First In First Out: evict the oldest page.
+Simple but can suffer from Belady's anomaly."""
+
+[[exercises]]
+name = "os05_clock_algorithm"
+path = "exercises/04_os_algorithms/os05_clock_algorithm.rs"
+mode = "test"
+hint = """
+Approximate LRU using a circular buffer and reference bits.
+Second-chance algorithm."""
+
+[[exercises]]
+name = "os06_buddy_system"
+path = "exercises/04_os_algorithms/os06_buddy_system.rs"
+mode = "test"
+hint = """
+Allocate memory in power-of-2 sized blocks.
+Split and coalesce buddy blocks."""
+
+[[exercises]]
+name = "os07_banker_algorithm"
+path = "exercises/04_os_algorithms/os07_banker_algorithm.rs"
+mode = "test"
+hint = """
+Deadlock avoidance: only grant resources if system
+stays in a safe state."""
+
+[[exercises]]
+name = "os08_producer_consumer"
+path = "exercises/04_os_algorithms/os08_producer_consumer.rs"
+mode = "test"
+hint = """
+Bounded buffer problem: producers add items,
+consumers remove them. Use semaphores or channels."""
+
+[[exercises]]
+name = "os09_reader_writer"
+path = "exercises/04_os_algorithms/os09_reader_writer.rs"
+mode = "test"
+hint = """
+Multiple readers or one writer at a time.
+Prevent writer starvation!"""
+
+# Category 5: Compiler and Runtime
+[[exercises]]
+name = "comp01_lexical_analysis"
+path = "exercises/05_compiler/comp01_lexical_analysis.rs"
+mode = "test"
+hint = """
+Convert source code into tokens.
+Implement a lexer using DFA or regex."""
+
+[[exercises]]
+name = "comp02_parsing"
+path = "exercises/05_compiler/comp02_parsing.rs"
+mode = "test"
+hint = """
+Build an AST from tokens.
+Try recursive descent parsing (LL) or shift-reduce (LR)."""
+
+[[exercises]]
+name = "comp03_register_allocation"
+path = "exercises/05_compiler/comp03_register_allocation.rs"
+mode = "test"
+hint = """
+Map variables to registers using graph coloring.
+Variables with overlapping lifetimes get different registers."""
+
+[[exercises]]
+name = "comp04_constant_folding"
+path = "exercises/05_compiler/comp04_constant_folding.rs"
+mode = "test"
+hint = """
+Evaluate constant expressions at compile time.
+2 + 3 becomes 5."""
+
+[[exercises]]
+name = "comp05_cse"
+path = "exercises/05_compiler/comp05_cse.rs"
+mode = "test"
+hint = """
+Common Subexpression Elimination: compute each
+expression only once, reuse the result."""
+
+[[exercises]]
+name = "comp06_escape_analysis"
+path = "exercises/05_compiler/comp06_escape_analysis.rs"
+mode = "test"
+hint = """
+Determine if an object escapes its scope.
+Can optimize allocation or synchronization."""
+
+[[exercises]]
+name = "comp07_inline_caching"
+path = "exercises/05_compiler/comp07_inline_caching.rs"
+mode = "test"
+hint = """
+Cache method lookup results at call sites.
+Speeds up dynamic dispatch in VMs."""
+
+# Category 6: Network and Distributed Systems
+[[exercises]]
+name = "dist01_tcp_congestion_control"
+path = "exercises/06_distributed_systems/dist01_tcp_congestion_control.rs"
+mode = "test"
+hint = """
+TCP congestion control uses AIMD (Additive Increase, Multiplicative Decrease).
+Implement slow start, congestion avoidance, and fast recovery phases."""
+
+[[exercises]]
+name = "dist02_load_balancing"
+path = "exercises/06_distributed_systems/dist02_load_balancing.rs"
+mode = "test"
+hint = """
+Distribute load across multiple servers.
+Implement Round Robin, Weighted, and Least Connections strategies."""
+
+[[exercises]]
+name = "dist03_consistent_hashing"
+path = "exercises/06_distributed_systems/dist03_consistent_hashing.rs"
+mode = "test"
+hint = """
+Consistent hashing minimizes key redistribution when nodes change.
+Use virtual nodes for better load distribution."""
+
+[[exercises]]
+name = "dist04_raft_consensus"
+path = "exercises/06_distributed_systems/dist04_raft_consensus.rs"
+mode = "test"
+hint = """
+Raft consensus has three roles: Follower, Candidate, Leader.
+Implement leader election and log replication."""
+
+[[exercises]]
+name = "dist05_paxos"
+path = "exercises/06_distributed_systems/dist05_paxos.rs"
+mode = "test"
+hint = """
+Paxos consensus uses a two-phase protocol: Prepare and Accept.
+Proposers, Acceptors, and Learners coordinate to reach agreement."""
+
+[[exercises]]
+name = "dist06_lease_mechanism"
+path = "exercises/06_distributed_systems/dist06_lease_mechanism.rs"
+mode = "test"
+hint = """
+Leases are time-limited distributed locks.
+Handle acquisition, renewal, and expiration."""
+
+[[exercises]]
+name = "dist07_heartbeat"
+path = "exercises/06_distributed_systems/dist07_heartbeat.rs"
+mode = "test"
+hint = """
+Heartbeat detects failed nodes in distributed systems.
+Implement both fixed timeout and adaptive (Phi Accrual) detection."""
+
+[[exercises]]
+name = "dist08_vector_clock"
+path = "exercises/06_distributed_systems/dist08_vector_clock.rs"
+mode = "test"
+hint = """
+Vector clocks track causality in distributed systems.
+Each node maintains a vector of logical timestamps."""
+
+[[exercises]]
+name = "dist09_gossip_protocol"
+path = "exercises/06_distributed_systems/dist09_gossip_protocol.rs"
+mode = "test"
+hint = """
+Gossip protocols spread information through a network.
+Implement push, pull, and push-pull variants."""
+
+[[exercises]]
+name = "dist10_two_phase_commit"
+path = "exercises/06_distributed_systems/dist10_two_phase_commit.rs"
+mode = "test"
+hint = """
+Two-phase commit ensures atomic distributed transactions.
+Coordinator and participants vote, then commit or abort together."""
+
+# Category 7: Cryptography and Security
+[[exercises]]
+name = "crypto01_symmetric_encryption"
+path = "exercises/07_cryptography/crypto01_symmetric_encryption.rs"
+mode = "test"
+hint = """
+Symmetric encryption uses the same key for encryption and decryption.
+Implement AES or ChaCha20 with proper IV/nonce handling."""
+
+[[exercises]]
+name = "crypto02_asymmetric_encryption"
+path = "exercises/07_cryptography/crypto02_asymmetric_encryption.rs"
+mode = "test"
+hint = """
+Asymmetric encryption uses public/private key pairs.
+RSA encrypts with public key, decrypts with private key."""
+
+[[exercises]]
+name = "crypto03_hash_functions"
+path = "exercises/07_cryptography/crypto03_hash_functions.rs"
+mode = "test"
+hint = """
+Cryptographic hash functions are one-way and collision-resistant.
+Implement SHA-256 or use standard libraries correctly."""
+
+[[exercises]]
+name = "crypto04_digital_signature"
+path = "exercises/07_cryptography/crypto04_digital_signature.rs"
+mode = "test"
+hint = """
+Digital signatures provide authentication and non-repudiation.
+Sign with private key, verify with public key."""
+
+[[exercises]]
+name = "crypto05_diffie_hellman"
+path = "exercises/07_cryptography/crypto05_diffie_hellman.rs"
+mode = "test"
+hint = """
+Diffie-Hellman key exchange establishes shared secrets over insecure channels.
+Use modular exponentiation with large prime numbers."""
+
+[[exercises]]
+name = "crypto06_mac"
+path = "exercises/07_cryptography/crypto06_mac.rs"
+mode = "test"
+hint = """
+Message Authentication Codes (MAC) verify message integrity and authenticity.
+HMAC combines a hash function with a secret key."""
+
+[[exercises]]
+name = "crypto07_password_hashing"
+path = "exercises/07_cryptography/crypto07_password_hashing.rs"
+mode = "test"
+hint = """
+Password hashing should be slow and use salt to prevent rainbow tables.
+Use bcrypt, scrypt, or Argon2 with proper parameters."""
+
+[[exercises]]
+name = "crypto08_secure_random"
+path = "exercises/07_cryptography/crypto08_secure_random.rs"
+mode = "test"
+hint = """
+Cryptographically secure random number generation is critical for security.
+Use OS-provided sources like /dev/urandom or platform-specific APIs."""
+
+[[exercises]]
+name = "crypto09_jwt"
+path = "exercises/07_cryptography/crypto09_jwt.rs"
+mode = "test"
+hint = """
+JSON Web Tokens encode claims and can be signed or encrypted.
+Implement JWT creation, signing, and verification."""
+
+[[exercises]]
+name = "crypto10_tls_handshake"
+path = "exercises/07_cryptography/crypto10_tls_handshake.rs"
+mode = "test"
+hint = """
+TLS handshake establishes encrypted connections.
+Implement certificate validation, key exchange, and cipher negotiation."""
+
+# Category 8: Database and Storage
+[[exercises]]
+name = "db01_btree"
+path = "exercises/08_database/db01_btree.rs"
+mode = "test"
+hint = """
+B-trees maintain sorted data and support efficient searches, insertions, and deletions.
+Each node contains multiple keys and maintains balanced height."""
+
+[[exercises]]
+name = "db02_bplus_tree"
+path = "exercises/08_database/db02_bplus_tree.rs"
+mode = "test"
+hint = """
+B+ trees store data only in leaf nodes, with internal nodes for indexing.
+Leaf nodes are linked for efficient range queries."""
+
+[[exercises]]
+name = "db03_lsm_tree"
+path = "exercises/08_database/db03_lsm_tree.rs"
+mode = "test"
+hint = """
+Log-Structured Merge trees optimize for write-heavy workloads.
+Buffer writes in memory, then flush to immutable sorted files."""
+
+[[exercises]]
+name = "db04_wal"
+path = "exercises/08_database/db04_wal.rs"
+mode = "test"
+hint = """
+Write-Ahead Logging ensures durability by logging changes before applying them.
+Essential for crash recovery in databases."""
+
+[[exercises]]
+name = "db05_mvcc"
+path = "exercises/08_database/db05_mvcc.rs"
+mode = "test"
+hint = """
+Multi-Version Concurrency Control maintains multiple versions of data.
+Readers see consistent snapshots without blocking writers."""
+
+[[exercises]]
+name = "db06_isolation_levels"
+path = "exercises/08_database/db06_isolation_levels.rs"
+mode = "test"
+hint = """
+Isolation levels balance consistency and performance.
+Implement Read Uncommitted, Read Committed, Repeatable Read, and Serializable."""
+
+[[exercises]]
+name = "db07_query_optimizer"
+path = "exercises/08_database/db07_query_optimizer.rs"
+mode = "test"
+hint = """
+Query optimizers choose efficient execution plans.
+Use cost estimation, index selection, and join ordering."""
+
+[[exercises]]
+name = "db08_bloom_filter"
+path = "exercises/08_database/db08_bloom_filter.rs"
+mode = "test"
+hint = """
+Bloom filters are space-efficient probabilistic data structures.
+Can have false positives but never false negatives."""
+
+[[exercises]]
+name = "db09_skip_list"
+path = "exercises/08_database/db09_skip_list.rs"
+mode = "test"
+hint = """
+Skip lists are probabilistic balanced structures using multiple layers.
+O(log n) operations without complex rebalancing."""
+
+[[exercises]]
+name = "db10_trie"
+path = "exercises/08_database/db10_trie.rs"
+mode = "test"
+hint = """
+Tries (prefix trees) store strings efficiently with shared prefixes.
+Excellent for autocomplete and dictionary operations."""
+
+[[exercises]]
+name = "db11_inverted_index"
+path = "exercises/08_database/db11_inverted_index.rs"
+mode = "test"
+hint = """
+Inverted indexes map terms to documents for full-text search.
+Store term positions for phrase queries and ranking."""
+
+[[exercises]]
+name = "db12_buffer_pool"
+path = "exercises/08_database/db12_buffer_pool.rs"
+mode = "test"
+hint = """
+Buffer pools cache disk pages in memory with eviction policies.
+Use LRU or Clock algorithm for page replacement."""
+
+# Category 9: Rate Limiting and Fault Tolerance
+[[exercises]]
+name = "rate01_token_bucket"
+path = "exercises/09_rate_limiting/rate01_token_bucket.rs"
+mode = "test"
+hint = """
+Token bucket allows bursts while enforcing average rate.
+Tokens are added at a constant rate and consumed by requests."""
+
+[[exercises]]
+name = "rate02_leaky_bucket"
+path = "exercises/09_rate_limiting/rate02_leaky_bucket.rs"
+mode = "test"
+hint = """
+Leaky bucket smooths traffic by processing requests at a constant rate.
+Excess requests overflow and are rejected."""
+
+[[exercises]]
+name = "rate03_sliding_window"
+path = "exercises/09_rate_limiting/rate03_sliding_window.rs"
+mode = "test"
+hint = """
+Sliding window counts requests in a rolling time window.
+More accurate than fixed windows but requires more memory."""
+
+[[exercises]]
+name = "rate04_fixed_window"
+path = "exercises/09_rate_limiting/rate04_fixed_window.rs"
+mode = "test"
+hint = """
+Fixed window counts requests in discrete time intervals.
+Simple but can allow bursts at window boundaries."""
+
+[[exercises]]
+name = "rate05_circuit_breaker"
+path = "exercises/09_rate_limiting/rate05_circuit_breaker.rs"
+mode = "test"
+hint = """
+Circuit breakers prevent cascading failures by failing fast.
+Three states: Closed, Open, Half-Open."""
+
+[[exercises]]
+name = "rate06_retry_backoff"
+path = "exercises/09_rate_limiting/rate06_retry_backoff.rs"
+mode = "test"
+hint = """
+Exponential backoff increases delay between retries.
+Add jitter to prevent thundering herd."""
+
+[[exercises]]
+name = "rate07_bulkhead"
+path = "exercises/09_rate_limiting/rate07_bulkhead.rs"
+mode = "test"
+hint = """
+Bulkhead pattern isolates resources to prevent total failure.
+Limit concurrent access to each resource pool."""
+
+[[exercises]]
+name = "rate08_timeout_control"
+path = "exercises/09_rate_limiting/rate08_timeout_control.rs"
+mode = "test"
+hint = """
+Timeout control prevents requests from hanging indefinitely.
+Implement both connection and read timeouts."""
+
+[[exercises]]
+name = "rate09_graceful_degradation"
+path = "exercises/09_rate_limiting/rate09_graceful_degradation.rs"
+mode = "test"
+hint = """
+Graceful degradation reduces functionality under load.
+Serve cached or simplified responses when overloaded."""
+
+[[exercises]]
+name = "rate10_adaptive_limiting"
+path = "exercises/09_rate_limiting/rate10_adaptive_limiting.rs"
+mode = "test"
+hint = """
+Adaptive rate limiting adjusts limits based on system load.
+Monitor metrics like latency and error rate."""
+
+# Category 10: String and Text Processing
+[[exercises]]
+name = "str01_kmp"
+path = "exercises/10_string_algorithms/str01_kmp.rs"
+mode = "test"
+hint = """
+Knuth-Morris-Pratt algorithm finds pattern matches in linear time.
+Build a failure function to avoid redundant comparisons."""
+
+[[exercises]]
+name = "str02_rabin_karp"
+path = "exercises/10_string_algorithms/str02_rabin_karp.rs"
+mode = "test"
+hint = """
+Rabin-Karp uses rolling hash to find pattern matches.
+Good for multiple pattern matching with proper hash function."""
+
+[[exercises]]
+name = "str03_boyer_moore"
+path = "exercises/10_string_algorithms/str03_boyer_moore.rs"
+mode = "test"
+hint = """
+Boyer-Moore searches from right to left with two heuristics.
+Bad character and good suffix rules enable large skips."""
+
+[[exercises]]
+name = "str04_aho_corasick"
+path = "exercises/10_string_algorithms/str04_aho_corasick.rs"
+mode = "test"
+hint = """
+Aho-Corasick finds multiple patterns simultaneously.
+Build a trie with failure links for efficient matching."""
+
+[[exercises]]
+name = "str05_suffix_array"
+path = "exercises/10_string_algorithms/str05_suffix_array.rs"
+mode = "test"
+hint = """
+Suffix arrays store sorted positions of all suffixes.
+Efficient for pattern matching and substring queries."""
+
+[[exercises]]
+name = "str06_levenshtein"
+path = "exercises/10_string_algorithms/str06_levenshtein.rs"
+mode = "test"
+hint = """
+Levenshtein distance measures edit distance between strings.
+Use dynamic programming to count insertions, deletions, and substitutions."""
+
+[[exercises]]
+name = "str07_regex_engine"
+path = "exercises/10_string_algorithms/str07_regex_engine.rs"
+mode = "test"
+hint = """
+Regular expression engines match patterns using automata.
+Implement NFA construction and matching for basic regex operations."""
+
+[[exercises]]
+name = "str08_huffman"
+path = "exercises/10_string_algorithms/str08_huffman.rs"
+mode = "test"
+hint = """
+Huffman coding assigns variable-length codes based on frequency.
+Build a binary tree with frequent characters having shorter paths."""
+
+[[exercises]]
+name = "str09_lz77"
+path = "exercises/10_string_algorithms/str09_lz77.rs"
+mode = "test"
+hint = """
+LZ77 compression replaces repeated strings with back-references.
+Use a sliding window to find matching sequences."""
+
+[[exercises]]
+name = "str10_text_similarity"
+path = "exercises/10_string_algorithms/str10_text_similarity.rs"
+mode = "test"
+hint = """
+Text similarity measures how alike two documents are.
+Implement cosine similarity, Jaccard index, or TF-IDF."""
+
+# Category 11: Stream Processing
+[[exercises]]
+name = "stream01_sliding_window"
+path = "exercises/11_stream_processing/stream01_sliding_window.rs"
+mode = "test"
+hint = """
+Sliding windows aggregate events over time periods.
+Implement tumbling, hopping, and session windows."""
+
+[[exercises]]
+name = "stream02_watermark"
+path = "exercises/11_stream_processing/stream02_watermark.rs"
+mode = "test"
+hint = """
+Watermarks track event time progress in out-of-order streams.
+Allow windows to close when all expected events have arrived."""
+
+[[exercises]]
+name = "stream03_topk"
+path = "exercises/11_stream_processing/stream03_topk.rs"
+mode = "test"
+hint = """
+Top-K tracking maintains the K most frequent items in a stream.
+Use heap or count-min sketch for space efficiency."""
+
+[[exercises]]
+name = "stream04_reservoir_sampling"
+path = "exercises/11_stream_processing/stream04_reservoir_sampling.rs"
+mode = "test"
+hint = """
+Reservoir sampling selects a random sample from an unknown-size stream.
+Each item has equal probability of being in the final sample."""
+
+[[exercises]]
+name = "stream05_streaming_join"
+path = "exercises/11_stream_processing/stream05_streaming_join.rs"
+mode = "test"
+hint = """
+Stream joins match events from multiple streams.
+Buffer events and join within time windows."""
+
+[[exercises]]
+name = "stream06_checkpoint"
+path = "exercises/11_stream_processing/stream06_checkpoint.rs"
+mode = "test"
+hint = """
+Checkpointing enables fault recovery in stream processing.
+Periodically save operator state for restart."""
+
+[[exercises]]
+name = "stream07_exactly_once"
+path = "exercises/11_stream_processing/stream07_exactly_once.rs"
+mode = "test"
+hint = """
+Exactly-once semantics ensure each event is processed once.
+Use idempotent operations or transactional processing."""
+
+[[exercises]]
+name = "stream08_streaming_agg"
+path = "exercises/11_stream_processing/stream08_streaming_agg.rs"
+mode = "test"
+hint = """
+Streaming aggregations compute running totals and statistics.
+Maintain incremental state for count, sum, average, etc."""
+
+[[exercises]]
+name = "stream09_event_time"
+path = "exercises/11_stream_processing/stream09_event_time.rs"
+mode = "test"
+hint = """
+Event time processing uses timestamps from events, not processing time.
+Handle late arrivals and out-of-order events."""
+
+[[exercises]]
+name = "stream10_backpressure"
+path = "exercises/11_stream_processing/stream10_backpressure.rs"
+mode = "test"
+hint = """
+Backpressure prevents fast producers from overwhelming slow consumers.
+Implement buffering, blocking, or dropping strategies."""
+
+# Category 12: Graph Algorithms
+[[exercises]]
+name = "graph01_dijkstra"
+path = "exercises/12_graph_algorithms/graph01_dijkstra.rs"
+mode = "test"
+hint = """
+Dijkstra's algorithm finds shortest paths in weighted graphs.
+Use a priority queue to greedily select minimum distance nodes."""
+
+[[exercises]]
+name = "graph02_bellman_ford"
+path = "exercises/12_graph_algorithms/graph02_bellman_ford.rs"
+mode = "test"
+hint = """
+Bellman-Ford handles negative edge weights and detects negative cycles.
+Relax all edges V-1 times."""
+
+[[exercises]]
+name = "graph03_floyd_warshall"
+path = "exercises/12_graph_algorithms/graph03_floyd_warshall.rs"
+mode = "test"
+hint = """
+Floyd-Warshall finds all-pairs shortest paths.
+Use dynamic programming with intermediate vertices."""
+
+[[exercises]]
+name = "graph04_kruskal"
+path = "exercises/12_graph_algorithms/graph04_kruskal.rs"
+mode = "test"
+hint = """
+Kruskal's algorithm finds minimum spanning trees.
+Sort edges by weight and use union-find to avoid cycles."""
+
+[[exercises]]
+name = "graph05_prim"
+path = "exercises/12_graph_algorithms/graph05_prim.rs"
+mode = "test"
+hint = """
+Prim's algorithm grows a minimum spanning tree from a starting vertex.
+Use a priority queue to select minimum weight edges."""
+
+[[exercises]]
+name = "graph06_topological_sort"
+path = "exercises/12_graph_algorithms/graph06_topological_sort.rs"
+mode = "test"
+hint = """
+Topological sort orders vertices in a DAG.
+Use DFS post-order or Kahn's algorithm with in-degree counting."""
+
+[[exercises]]
+name = "graph07_tarjan_scc"
+path = "exercises/12_graph_algorithms/graph07_tarjan_scc.rs"
+mode = "test"
+hint = """
+Tarjan's algorithm finds strongly connected components in one pass.
+Track discovery time and lowest reachable ancestor."""
+
+[[exercises]]
+name = "graph08_max_flow"
+path = "exercises/12_graph_algorithms/graph08_max_flow.rs"
+mode = "test"
+hint = """
+Maximum flow algorithms find optimal flow in networks.
+Implement Ford-Fulkerson with BFS (Edmonds-Karp) or push-relabel."""
+
+[[exercises]]
+name = "graph09_pagerank"
+path = "exercises/12_graph_algorithms/graph09_pagerank.rs"
+mode = "test"
+hint = """
+PageRank computes vertex importance using random walks.
+Iteratively update ranks based on incoming links."""
+
+[[exercises]]
+name = "graph10_graph_coloring"
+path = "exercises/12_graph_algorithms/graph10_graph_coloring.rs"
+mode = "test"
+hint = """
+Graph coloring assigns colors so adjacent vertices differ.
+Use greedy algorithms or backtracking for optimal coloring."""
+
+# Category 13: Data Structures
+[[exercises]]
+name = "ds01_red_black_tree"
+path = "exercises/13_data_structures/ds01_red_black_tree.rs"
+mode = "test"
+hint = """
+Red-Black trees maintain balance with color properties.
+Rotations and recoloring ensure O(log n) operations."""
+
+[[exercises]]
+name = "ds02_avl_tree"
+path = "exercises/13_data_structures/ds02_avl_tree.rs"
+mode = "test"
+hint = """
+AVL trees maintain strict balance with height differences.
+Perform rotations when balance factor exceeds 1."""
+
+[[exercises]]
+name = "ds03_heap"
+path = "exercises/13_data_structures/ds03_heap.rs"
+mode = "test"
+hint = """
+Binary heaps maintain partial ordering with parent-child relationship.
+Implement heapify, insert, and extract-min operations."""
+
+[[exercises]]
+name = "ds04_fibonacci_heap"
+path = "exercises/13_data_structures/ds04_fibonacci_heap.rs"
+mode = "test"
+hint = """
+Fibonacci heaps have amortized O(1) decrease-key operation.
+Use lazy consolidation and cascading cuts."""
+
+[[exercises]]
+name = "ds05_union_find"
+path = "exercises/13_data_structures/ds05_union_find.rs"
+mode = "test"
+hint = """
+Union-Find (Disjoint Set) tracks connected components.
+Use path compression and union by rank for efficiency."""
+
+[[exercises]]
+name = "ds06_segment_tree"
+path = "exercises/13_data_structures/ds06_segment_tree.rs"
+mode = "test"
+hint = """
+Segment trees answer range queries in O(log n) time.
+Build tree recursively, each node covers a range."""
+
+[[exercises]]
+name = "ds07_fenwick_tree"
+path = "exercises/13_data_structures/ds07_fenwick_tree.rs"
+mode = "test"
+hint = """
+Fenwick tree (Binary Indexed Tree) computes prefix sums efficiently.
+Use bit manipulation to navigate the tree structure."""
+
+[[exercises]]
+name = "ds08_splay_tree"
+path = "exercises/13_data_structures/ds08_splay_tree.rs"
+mode = "test"
+hint = """
+Splay trees move accessed nodes to the root via rotations.
+Self-adjusting structure with amortized O(log n) operations."""
+
+[[exercises]]
+name = "ds09_treap"
+path = "exercises/13_data_structures/ds09_treap.rs"
+mode = "test"
+hint = """
+Treaps combine BST and heap properties using random priorities.
+Split and merge operations enable efficient set operations."""
+
+[[exercises]]
+name = "ds10_persistent_ds"
+path = "exercises/13_data_structures/ds10_persistent_ds.rs"
+mode = "test"
+hint = """
+Persistent data structures preserve previous versions.
+Use structural sharing and path copying for efficiency."""
+
+# Category 14: Machine Learning Fundamentals
+[[exercises]]
+name = "ml01_gradient_descent"
+path = "exercises/14_ml_fundamentals/ml01_gradient_descent.rs"
+mode = "test"
+hint = """
+Gradient descent optimizes functions by following the negative gradient.
+Implement batch, mini-batch, and stochastic variants."""
+
+[[exercises]]
+name = "ml02_linear_regression"
+path = "exercises/14_ml_fundamentals/ml02_linear_regression.rs"
+mode = "test"
+hint = """
+Linear regression fits a line to data using least squares.
+Solve with normal equation or gradient descent."""
+
+[[exercises]]
+name = "ml03_logistic_regression"
+path = "exercises/14_ml_fundamentals/ml03_logistic_regression.rs"
+mode = "test"
+hint = """
+Logistic regression performs binary classification using sigmoid function.
+Train using gradient descent with cross-entropy loss."""
+
+[[exercises]]
+name = "ml04_kmeans"
+path = "exercises/14_ml_fundamentals/ml04_kmeans.rs"
+mode = "test"
+hint = """
+K-means clustering groups data into K clusters.
+Iterate between assigning points and updating centroids."""
+
+[[exercises]]
+name = "ml05_knn"
+path = "exercises/14_ml_fundamentals/ml05_knn.rs"
+mode = "test"
+hint = """
+K-Nearest Neighbors classifies based on closest training examples.
+Use distance metrics and vote among K neighbors."""
+
+[[exercises]]
+name = "ml06_decision_tree"
+path = "exercises/14_ml_fundamentals/ml06_decision_tree.rs"
+mode = "test"
+hint = """
+Decision trees split data based on feature values.
+Use information gain or Gini impurity for splits."""
+
+[[exercises]]
+name = "ml07_neural_network"
+path = "exercises/14_ml_fundamentals/ml07_neural_network.rs"
+mode = "test"
+hint = """
+Neural networks combine layers of weighted connections.
+Implement forward pass and backpropagation for training."""
+
+[[exercises]]
+name = "ml08_matrix_factorization"
+path = "exercises/14_ml_fundamentals/ml08_matrix_factorization.rs"
+mode = "test"
+hint = """
+Matrix factorization decomposes matrices into lower-rank factors.
+Used for recommendations via collaborative filtering."""

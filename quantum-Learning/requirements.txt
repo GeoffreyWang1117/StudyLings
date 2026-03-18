@@ -1,0 +1,25 @@
+# Quantum Rustlings Dependencies
+
+# Quantum Computing Framework
+qiskit>=1.0.0
+qiskit-aer>=0.13.0
+
+# Scientific Computing
+numpy>=1.24.0
+scipy>=1.11.0
+
+# Visualization
+matplotlib>=3.7.0
+
+# Configuration
+toml>=0.10.2
+
+# Optional: For Jupyter notebook support
+# jupyter>=1.0.0
+# ipywidgets>=8.0.0
+
+# Optional: For advanced quantum chemistry
+# qiskit-nature>=0.7.0
+
+# Optional: For quantum machine learning
+# qiskit-machine-learning>=0.7.0

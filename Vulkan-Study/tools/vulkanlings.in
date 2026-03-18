@@ -1,0 +1,449 @@
+#!/bin/bash
+
+# Vulkanlings - Vulkan 学习系统
+# 类似 rustlings 的交互式 Vulkan 练习工具
+
+set -e
+
+# 配置
+BUILD_DIR="@CMAKE_BINARY_DIR@"
+SOURCE_DIR="@CMAKE_SOURCE_DIR@"
+EXERCISES_DIR="${SOURCE_DIR}/exercises"
+
+# 颜色定义
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+BOLD='\033[1m'
+
+# 练习列表
+EXERCISES=(
+    "00_intro:Vulkan 概述与环境配置"
+    "01_instance:创建 Vulkan 实例"
+    "02_physical_device:选择物理设备"
+    "03_logical_device:创建逻辑设备与队列"
+    "04_surface:创建窗口表面"
+    "05_swapchain:配置交换链"
+    "06_image_views:创建图像视图"
+    "07_render_pass:配置渲染通道"
+    "08_pipeline:创建图形管线"
+    "09_framebuffers:创建帧缓冲"
+    "10_command_buffers:命令缓冲与命令池"
+    "11_sync:同步机制"
+    "12_triangle:渲染三角形"
+    "13_vertex_buffers:顶点缓冲"
+    "14_index_buffers:索引缓冲"
+    "15_uniforms:Uniform 缓冲对象"
+    "16_textures:纹理映射"
+    "17_depth:深度缓冲"
+    "18_model_loading:模型加载"
+    "19_lighting:Blinn-Phong 光照"
+)
+
+# 打印横幅
+print_banner() {
+    echo -e "${CYAN}"
+    cat << "EOF"
+ __      __    _ _                  _ _
+ \ \    / /   | | |                | (_)
+  \ \  / /   _| | | ____ _ _ __   | |_ _ __   __ _ ___
+   \ \/ / | | | | |/ / _` | '_ \  | | | '_ \ / _` / __|
+    \  /| |_| | |   < (_| | | | | | | | | | | (_| \__ \
+     \/  \__,_|_|_|\_\__,_|_| |_| |_|_|_| |_|\__, |___/
+                                              __/ |
+                                             |___/
+EOF
+    echo -e "${NC}"
+    echo -e "${BOLD}Vulkan 交互式学习系统${NC}"
+    echo ""
+}
+
+# 显示帮助信息
+show_help() {
+    print_banner
+    echo "用法: vulkanlings [命令] [参数]"
+    echo ""
+    echo "命令:"
+    echo -e "  ${GREEN}list${NC}                 列出所有练习"
+    echo -e "  ${GREEN}run${NC} <exercise>       运行指定练习"
+    echo -e "  ${GREEN}verify${NC} <exercise>    验证练习是否正确"
+    echo -e "  ${GREEN}hint${NC} <exercise>      获取练习提示"
+    echo -e "  ${GREEN}watch${NC}                监视模式"
+    echo -e "  ${GREEN}reset${NC} <exercise>     重置练习到初始状态"
+    echo -e "  ${GREEN}progress${NC}             显示学习进度"
+    echo -e "  ${GREEN}help${NC}                 显示此帮助信息"
+    echo ""
+    echo "示例:"
+    echo "  vulkanlings list"
+    echo "  vulkanlings run 01_instance"
+    echo "  vulkanlings verify 01_instance"
+    echo ""
+}
+
+# 列出所有练习
+list_exercises() {
+    print_banner
+    echo -e "${BOLD}练习列表:${NC}"
+    echo ""
+
+    local section=""
+    for exercise_info in "${EXERCISES[@]}"; do
+        local name="${exercise_info%%:*}"
+        local desc="${exercise_info#*:}"
+        local num="${name%%_*}"
+
+        # 显示分段标题
+        case "$num" in
+            "00"|"01")
+                if [ "$section" != "basic" ]; then
+                    echo -e "\n${YELLOW}═══ 基础阶段 (00-06) ═══${NC}"
+                    section="basic"
+                fi
+                ;;
+            "07")
+                if [ "$section" != "intermediate" ]; then
+                    echo -e "\n${YELLOW}═══ 中级阶段 (07-12) ═══${NC}"
+                    section="intermediate"
+                fi
+                ;;
+            "13")
+                if [ "$section" != "advanced" ]; then
+                    echo -e "\n${YELLOW}═══ 高级阶段 (13-19) ═══${NC}"
+                    section="advanced"
+                fi
+                ;;
+        esac
+
+        # 检查练习状态
+        local status_file="${EXERCISES_DIR}/${name}/.completed"
+        if [ -f "$status_file" ]; then
+            echo -e "  ${GREEN}✓${NC} ${name} - ${desc}"
+        else
+            echo -e "  ${RED}○${NC} ${name} - ${desc}"
+        fi
+    done
+
+    echo ""
+    echo -e "${CYAN}提示: 使用 'vulkanlings run <exercise>' 开始练习${NC}"
+}
+
+# 运行练习
+run_exercise() {
+    local exercise="$1"
+
+    if [ -z "$exercise" ]; then
+        echo -e "${RED}错误: 请指定练习名称${NC}"
+        echo "用法: vulkanlings run <exercise>"
+        exit 1
+    fi
+
+    local exercise_dir="${EXERCISES_DIR}/${exercise}"
+    local main_file="${exercise_dir}/main.cpp"
+
+    if [ ! -f "$main_file" ]; then
+        echo -e "${RED}错误: 找不到练习 '${exercise}'${NC}"
+        echo "使用 'vulkanlings list' 查看可用练习"
+        exit 1
+    fi
+
+    echo -e "${CYAN}╔════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${CYAN}║${NC}  正在运行练习: ${BOLD}${exercise}${NC}"
+    echo -e "${CYAN}╚════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+
+    # 检查是否有 TODO 标记
+    local todos=$(grep -n "// TODO:" "$main_file" 2>/dev/null || true)
+    if [ -n "$todos" ]; then
+        echo -e "${YELLOW}待完成的 TODO:${NC}"
+        echo "$todos" | while read -r line; do
+            echo -e "  ${RED}→${NC} $line"
+        done
+        echo ""
+    fi
+
+    # 尝试编译
+    echo -e "${BLUE}编译中...${NC}"
+    cd "$BUILD_DIR"
+
+    if make "$exercise" 2>&1 | tail -20; then
+        echo -e "${GREEN}编译成功!${NC}"
+        echo ""
+
+        # 运行程序
+        local executable="${BUILD_DIR}/${exercise}"
+        if [ -x "$executable" ]; then
+            echo -e "${BLUE}运行程序...${NC}"
+            echo ""
+            "$executable" || true
+        fi
+    else
+        echo ""
+        echo -e "${RED}╔════════════════════════════════════════════════════════════╗${NC}"
+        echo -e "${RED}║${NC}  ${BOLD}编译失败!${NC} 请修复代码中的错误"
+        echo -e "${RED}╚════════════════════════════════════════════════════════════╝${NC}"
+        echo ""
+        echo -e "编辑文件: ${CYAN}${main_file}${NC}"
+        echo -e "获取提示: ${CYAN}vulkanlings hint ${exercise}${NC}"
+    fi
+}
+
+# 验证练习
+verify_exercise() {
+    local exercise="$1"
+
+    if [ -z "$exercise" ]; then
+        echo -e "${RED}错误: 请指定练习名称${NC}"
+        exit 1
+    fi
+
+    local exercise_dir="${EXERCISES_DIR}/${exercise}"
+    local main_file="${exercise_dir}/main.cpp"
+
+    if [ ! -f "$main_file" ]; then
+        echo -e "${RED}错误: 找不到练习 '${exercise}'${NC}"
+        exit 1
+    fi
+
+    echo -e "${BLUE}验证练习: ${exercise}${NC}"
+
+    # 检查是否还有 TODO
+    local todos=$(grep -c "// TODO:" "$main_file" 2>/dev/null || echo "0")
+    if [ "$todos" -gt 0 ]; then
+        echo -e "${YELLOW}警告: 还有 ${todos} 个 TODO 未完成${NC}"
+    fi
+
+    # 检查是否有占位符
+    local placeholders=$(grep -c "/\* ??? \*/" "$main_file" 2>/dev/null || echo "0")
+    if [ "$placeholders" -gt 0 ]; then
+        echo -e "${RED}错误: 还有 ${placeholders} 个占位符需要填写${NC}"
+        exit 1
+    fi
+
+    # 尝试编译和运行
+    cd "$BUILD_DIR"
+
+    if make "$exercise" > /dev/null 2>&1; then
+        local executable="${BUILD_DIR}/${exercise}"
+        if [ -x "$executable" ]; then
+            if timeout 10 "$executable" > /dev/null 2>&1; then
+                echo -e "${GREEN}╔════════════════════════════════════════════════════════════╗${NC}"
+                echo -e "${GREEN}║${NC}  ${BOLD}恭喜! 练习 '${exercise}' 通过验证!${NC}"
+                echo -e "${GREEN}╚════════════════════════════════════════════════════════════╝${NC}"
+
+                # 标记完成
+                touch "${exercise_dir}/.completed"
+
+                # 提示下一个练习
+                local next_exercise=$(get_next_exercise "$exercise")
+                if [ -n "$next_exercise" ]; then
+                    echo ""
+                    echo -e "下一个练习: ${CYAN}vulkanlings run ${next_exercise}${NC}"
+                fi
+                return 0
+            fi
+        fi
+    fi
+
+    echo -e "${RED}验证失败${NC}"
+    exit 1
+}
+
+# 获取下一个练习
+get_next_exercise() {
+    local current="$1"
+    local found=false
+
+    for exercise_info in "${EXERCISES[@]}"; do
+        local name="${exercise_info%%:*}"
+        if [ "$found" = true ]; then
+            echo "$name"
+            return
+        fi
+        if [ "$name" = "$current" ]; then
+            found=true
+        fi
+    done
+}
+
+# 显示提示
+show_hint() {
+    local exercise="$1"
+
+    if [ -z "$exercise" ]; then
+        echo -e "${RED}错误: 请指定练习名称${NC}"
+        exit 1
+    fi
+
+    local hint_file="${EXERCISES_DIR}/${exercise}/HINT.md"
+
+    if [ ! -f "$hint_file" ]; then
+        echo -e "${YELLOW}此练习暂无提示${NC}"
+        exit 0
+    fi
+
+    echo -e "${CYAN}╔════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${CYAN}║${NC}  ${BOLD}提示: ${exercise}${NC}"
+    echo -e "${CYAN}╚════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    cat "$hint_file"
+}
+
+# 重置练习
+reset_exercise() {
+    local exercise="$1"
+
+    if [ -z "$exercise" ]; then
+        echo -e "${RED}错误: 请指定练习名称${NC}"
+        exit 1
+    fi
+
+    local exercise_dir="${EXERCISES_DIR}/${exercise}"
+    local backup_file="${exercise_dir}/main.cpp.bak"
+    local main_file="${exercise_dir}/main.cpp"
+
+    if [ ! -f "$backup_file" ]; then
+        echo -e "${YELLOW}没有找到备份文件${NC}"
+        exit 1
+    fi
+
+    cp "$backup_file" "$main_file"
+    rm -f "${exercise_dir}/.completed"
+
+    echo -e "${GREEN}练习 '${exercise}' 已重置${NC}"
+}
+
+# 显示进度
+show_progress() {
+    print_banner
+
+    local total=${#EXERCISES[@]}
+    local completed=0
+
+    for exercise_info in "${EXERCISES[@]}"; do
+        local name="${exercise_info%%:*}"
+        if [ -f "${EXERCISES_DIR}/${name}/.completed" ]; then
+            ((completed++))
+        fi
+    done
+
+    local percent=$((completed * 100 / total))
+    local bar_width=40
+    local filled=$((completed * bar_width / total))
+    local empty=$((bar_width - filled))
+
+    echo -e "${BOLD}学习进度:${NC}"
+    echo ""
+    printf "  ["
+    printf "${GREEN}%${filled}s${NC}" | tr ' ' '█'
+    printf "${RED}%${empty}s${NC}" | tr ' ' '░'
+    printf "] %d/%d (%d%%)\n" "$completed" "$total" "$percent"
+    echo ""
+
+    if [ "$completed" -eq "$total" ]; then
+        echo -e "${GREEN}恭喜! 你已完成所有练习!${NC}"
+        echo -e "现在可以挑战最终项目: ${CYAN}Minimal Vulkan Renderer${NC}"
+    else
+        local next_incomplete=""
+        for exercise_info in "${EXERCISES[@]}"; do
+            local name="${exercise_info%%:*}"
+            if [ ! -f "${EXERCISES_DIR}/${name}/.completed" ]; then
+                next_incomplete="$name"
+                break
+            fi
+        done
+        echo -e "下一个待完成: ${CYAN}vulkanlings run ${next_incomplete}${NC}"
+    fi
+}
+
+# 监视模式
+watch_mode() {
+    print_banner
+    echo -e "${CYAN}进入监视模式... (Ctrl+C 退出)${NC}"
+    echo ""
+
+    # 找到第一个未完成的练习
+    local current_exercise=""
+    for exercise_info in "${EXERCISES[@]}"; do
+        local name="${exercise_info%%:*}"
+        if [ ! -f "${EXERCISES_DIR}/${name}/.completed" ]; then
+            current_exercise="$name"
+            break
+        fi
+    done
+
+    if [ -z "$current_exercise" ]; then
+        echo -e "${GREEN}所有练习已完成!${NC}"
+        exit 0
+    fi
+
+    local main_file="${EXERCISES_DIR}/${current_exercise}/main.cpp"
+    echo -e "正在监视: ${CYAN}${current_exercise}${NC}"
+    echo -e "编辑文件: ${CYAN}${main_file}${NC}"
+    echo ""
+
+    local last_hash=""
+    while true; do
+        local current_hash=$(md5sum "$main_file" 2>/dev/null | cut -d' ' -f1)
+
+        if [ "$current_hash" != "$last_hash" ]; then
+            last_hash="$current_hash"
+            clear
+            run_exercise "$current_exercise"
+
+            # 检查是否完成
+            if verify_exercise "$current_exercise" 2>/dev/null; then
+                # 移动到下一个练习
+                current_exercise=$(get_next_exercise "$current_exercise")
+                if [ -z "$current_exercise" ]; then
+                    echo -e "${GREEN}恭喜! 所有练习已完成!${NC}"
+                    exit 0
+                fi
+                main_file="${EXERCISES_DIR}/${current_exercise}/main.cpp"
+                echo ""
+                echo -e "下一个练习: ${CYAN}${current_exercise}${NC}"
+            fi
+        fi
+
+        sleep 1
+    done
+}
+
+# 主函数
+main() {
+    case "${1:-help}" in
+        list)
+            list_exercises
+            ;;
+        run)
+            run_exercise "$2"
+            ;;
+        verify)
+            verify_exercise "$2"
+            ;;
+        hint)
+            show_hint "$2"
+            ;;
+        reset)
+            reset_exercise "$2"
+            ;;
+        progress)
+            show_progress
+            ;;
+        watch)
+            watch_mode
+            ;;
+        help|--help|-h)
+            show_help
+            ;;
+        *)
+            echo -e "${RED}未知命令: $1${NC}"
+            show_help
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"

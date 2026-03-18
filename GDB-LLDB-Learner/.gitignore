@@ -1,0 +1,46 @@
+# 编译产物
+*.o
+*.out
+*.exe
+*.so
+*.dylib
+*.a
+
+# 可执行文件
+hello
+factorial
+calculator
+bug
+threads
+*_test
+
+# 调试文件
+*.dSYM/
+core
+core.*
+*.core
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# 进度文件
+.gdb_lldb_learner_progress.json
+
+# 临时文件
+*.tmp
+*.bak
+*.log

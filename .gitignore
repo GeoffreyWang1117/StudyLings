@@ -1,0 +1,34 @@
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+.env
+
+# Progress files (user-specific)
+.studylings_progress.json
+.economlings_progress.json
+.genlings_progress.json
+.jaxlings_progress.json
+.ods_progress.json
+.progress
+.cudalings/
+.completed
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+cmake-build-*/
+*.o
+*.spv

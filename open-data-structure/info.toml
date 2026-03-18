@@ -1,0 +1,471 @@
+# ODS-Python Exercise Configuration
+# This file defines the order and metadata for all exercises
+
+[[exercises]]
+name = "intro01"
+path = "exercises/00_intro/01_welcome.py"
+mode = "test"
+hint = """
+Welcome to ODS-Python! This is a simple warm-up exercise.
+Just follow the TODO instructions to complete the function.
+"""
+
+[[exercises]]
+name = "intro02"
+path = "exercises/00_intro/02_complexity.py"
+mode = "test"
+hint = """
+Big-O notation describes the upper bound of time/space complexity.
+Think about how many operations are needed as n grows.
+"""
+
+# Arrays & Lists Section
+[[exercises]]
+name = "arrays01"
+path = "exercises/01_arrays/01_array_stack.py"
+mode = "test"
+hint = """
+A stack follows LIFO (Last In, First Out).
+Use a Python list and think about which end is most efficient for push/pop.
+"""
+
+[[exercises]]
+name = "arrays02"
+path = "exercises/01_arrays/02_array_queue.py"
+mode = "test"
+hint = """
+A queue follows FIFO (First In, First Out).
+Consider using a circular buffer to avoid shifting elements.
+"""
+
+[[exercises]]
+name = "arrays03"
+path = "exercises/01_arrays/03_dynamic_array.py"
+mode = "test"
+hint = """
+When the array is full, allocate a new array of double the size.
+This gives amortized O(1) append operations.
+"""
+
+# Linked Lists Section
+[[exercises]]
+name = "lists01"
+path = "exercises/02_lists/01_singly_linked_list.py"
+mode = "test"
+hint = """
+Each node points to the next node.
+Keep track of the head pointer and update it carefully.
+"""
+
+[[exercises]]
+name = "lists02"
+path = "exercises/02_lists/02_doubly_linked_list.py"
+mode = "test"
+hint = """
+Each node points to both next and previous nodes.
+This allows O(1) deletion when you have a reference to the node.
+"""
+
+[[exercises]]
+name = "lists03"
+path = "exercises/02_lists/03_skip_list.py"
+mode = "test"
+hint = """
+A skip list uses multiple levels of linked lists for fast search.
+Each level skips over more elements than the level below.
+Expected search time is O(log n).
+"""
+
+# Stacks & Queues Section
+[[exercises]]
+name = "stacks01"
+path = "exercises/03_stacks_queues/01_balanced_parentheses.py"
+mode = "test"
+hint = """
+Use a stack to track opening brackets.
+When you see a closing bracket, check if it matches the top of the stack.
+"""
+
+[[exercises]]
+name = "queues01"
+path = "exercises/03_stacks_queues/02_queue_with_stacks.py"
+mode = "test"
+hint = """
+Use two stacks: one for enqueue, one for dequeue.
+Transfer elements between stacks when needed.
+"""
+
+[[exercises]]
+name = "deque01"
+path = "exercises/03_stacks_queues/03_deque.py"
+mode = "test"
+hint = """
+A deque (double-ended queue) allows insertion/deletion from both ends.
+A doubly-linked list or circular array works well.
+"""
+
+# Hash Tables Section
+[[exercises]]
+name = "hash01"
+path = "exercises/04_hash_tables/01_chaining.py"
+mode = "test"
+hint = """
+Use an array of linked lists to handle collisions.
+Multiple keys with the same hash go in the same chain.
+"""
+
+[[exercises]]
+name = "hash02"
+path = "exercises/04_hash_tables/02_linear_probing.py"
+mode = "test"
+hint = """
+When a collision occurs, probe the next slot linearly.
+Continue until you find an empty slot or the key.
+"""
+
+[[exercises]]
+name = "hash03"
+path = "exercises/04_hash_tables/03_applications.py"
+mode = "test"
+hint = """
+Hash tables are perfect for: caches, frequency counting, and deduplication.
+Think about what operations you need O(1) time for.
+"""
+
+# Binary Search Trees Section
+[[exercises]]
+name = "bst01"
+path = "exercises/05_trees/01_binary_search_tree.py"
+mode = "test"
+hint = """
+In a BST, left child < parent < right child.
+Use recursion for clean insert/search/delete operations.
+"""
+
+[[exercises]]
+name = "bst02"
+path = "exercises/05_trees/02_tree_traversal.py"
+mode = "test"
+hint = """
+In-order: left, root, right (gives sorted order for BST)
+Pre-order: root, left, right
+Post-order: left, right, root
+"""
+
+[[exercises]]
+name = "avl01"
+path = "exercises/05_trees/03_avl_tree.py"
+mode = "test"
+hint = """
+AVL trees maintain balance: |height(left) - height(right)| ≤ 1
+Use rotations (left, right, left-right, right-left) to rebalance.
+"""
+
+# Heaps Section
+[[exercises]]
+name = "heap01"
+path = "exercises/06_heaps/01_binary_heap.py"
+mode = "test"
+hint = """
+Store heap in an array. For node at index i:
+- Left child: 2*i + 1
+- Right child: 2*i + 2
+- Parent: (i-1) // 2
+"""
+
+[[exercises]]
+name = "heap02"
+path = "exercises/06_heaps/02_priority_queue.py"
+mode = "test"
+hint = """
+A priority queue gives O(1) access to the highest priority item.
+Use a heap for O(log n) insert and extract-max/min.
+"""
+
+[[exercises]]
+name = "heap03"
+path = "exercises/06_heaps/03_heap_sort.py"
+mode = "test"
+hint = """
+1. Build a max heap from the array
+2. Repeatedly extract the max and place it at the end
+Time: O(n log n), Space: O(1)
+"""
+
+# Graphs Section
+[[exercises]]
+name = "graph01"
+path = "exercises/07_graphs/01_adjacency_list.py"
+mode = "test"
+hint = """
+Use a dictionary where keys are nodes and values are lists of neighbors.
+Space efficient for sparse graphs.
+"""
+
+[[exercises]]
+name = "graph02"
+path = "exercises/07_graphs/02_adjacency_matrix.py"
+mode = "test"
+hint = """
+Use a 2D array where matrix[i][j] = 1 if edge exists.
+Fast edge lookup but uses O(V²) space.
+"""
+
+[[exercises]]
+name = "graph03"
+path = "exercises/07_graphs/03_bfs.py"
+mode = "test"
+hint = """
+BFS uses a queue. Visit all neighbors at distance k before distance k+1.
+Good for finding shortest paths in unweighted graphs.
+"""
+
+[[exercises]]
+name = "graph04"
+path = "exercises/07_graphs/04_dfs.py"
+mode = "test"
+hint = """
+DFS uses a stack (or recursion). Go deep before going wide.
+Good for topological sort, cycle detection, and path finding.
+"""
+
+[[exercises]]
+name = "graph05"
+path = "exercises/07_graphs/05_dijkstra.py"
+mode = "test"
+hint = """
+Use a min-heap to always process the closest unvisited node.
+Update distances to neighbors if a shorter path is found.
+"""
+
+# Sorting Section
+[[exercises]]
+name = "sort01"
+path = "exercises/08_sorting/01_merge_sort.py"
+mode = "test"
+hint = """
+Divide array in half, sort each half, then merge.
+Time: O(n log n), Space: O(n)
+"""
+
+[[exercises]]
+name = "sort02"
+path = "exercises/08_sorting/02_quick_sort.py"
+mode = "test"
+hint = """
+Choose a pivot, partition around it, recursively sort partitions.
+Average: O(n log n), Worst: O(n²)
+"""
+
+[[exercises]]
+name = "sort03"
+path = "exercises/08_sorting/03_counting_sort.py"
+mode = "test"
+hint = """
+Count frequency of each value, then reconstruct sorted array.
+Time: O(n + k) where k is range of values.
+Only works for integers in a limited range.
+"""
+
+# Advanced Section
+[[exercises]]
+name = "advanced01"
+path = "exercises/09_advanced/01_red_black_tree.py"
+mode = "test"
+hint = """
+Red-Black trees maintain these properties:
+1. Every node is red or black
+2. Root is black
+3. Red nodes have black children
+4. All paths have same number of black nodes
+"""
+
+[[exercises]]
+name = "advanced02"
+path = "exercises/09_advanced/02_btree.py"
+mode = "test"
+hint = """
+B-trees are balanced trees where each node has multiple keys.
+Commonly used in databases and file systems.
+All leaves are at the same depth.
+"""
+
+[[exercises]]
+name = "advanced03"
+path = "exercises/09_advanced/03_treap.py"
+mode = "test"
+hint = """
+A treap combines BST property (by key) with heap property (by priority).
+Each node has a random priority; maintain heap property on priorities.
+"""
+
+[[exercises]]
+name = "advanced04"
+path = "exercises/09_advanced/04_lru_cache.py"
+mode = "test"
+hint = """
+LRU Cache: evict Least Recently Used item when full.
+Use a hash map + doubly-linked list for O(1) operations.
+"""
+
+# Advanced Data Structures Section
+[[exercises]]
+name = "trie01"
+path = "exercises/10_advanced_structures/01_trie.py"
+mode = "test"
+hint = """
+A Trie stores strings efficiently for prefix-based operations.
+Each node represents a character, and edges form words.
+Perfect for autocomplete and dictionary operations.
+"""
+
+[[exercises]]
+name = "unionfind01"
+path = "exercises/10_advanced_structures/02_union_find.py"
+mode = "test"
+hint = """
+Union-Find tracks disjoint sets with path compression and union by rank.
+Essential for Kruskal's MST and cycle detection.
+Amortized O(α(n)) operations where α is inverse Ackermann.
+"""
+
+[[exercises]]
+name = "segtree01"
+path = "exercises/10_advanced_structures/03_segment_tree.py"
+mode = "test"
+hint = """
+Segment Tree enables efficient range queries and updates.
+Build the tree recursively, storing aggregates at each node.
+O(log n) query and update, O(n) space.
+"""
+
+[[exercises]]
+name = "fenwick01"
+path = "exercises/10_advanced_structures/04_fenwick_tree.py"
+mode = "test"
+hint = """
+Fenwick Tree (BIT) efficiently computes prefix sums.
+Use bit operations: i & -i gives lowest set bit.
+More space-efficient than Segment Tree for simple operations.
+"""
+
+[[exercises]]
+name = "bloom01"
+path = "exercises/10_advanced_structures/05_bloom_filter.py"
+mode = "test"
+hint = """
+Bloom Filter is a probabilistic set membership structure.
+False positives possible, but NO false negatives.
+Use k hash functions for optimal space/accuracy tradeoff.
+"""
+
+[[exercises]]
+name = "kmp01"
+path = "exercises/10_advanced_structures/06_kmp_algorithm.py"
+mode = "test"
+hint = """
+KMP algorithm finds pattern in text in O(n+m) time.
+Build the LPS (Longest Proper Prefix Suffix) array first.
+Use it to skip unnecessary comparisons during matching.
+"""
+
+[[exercises]]
+name = "interval01"
+path = "exercises/10_advanced_structures/07_interval_tree.py"
+mode = "test"
+hint = """
+Interval Tree efficiently finds overlapping intervals.
+Store max endpoint in each node to prune searches.
+Perfect for scheduling and calendar conflict detection.
+"""
+
+[[exercises]]
+name = "splay01"
+path = "exercises/10_advanced_structures/08_splay_tree.py"
+mode = "test"
+hint = """
+Splay Tree is self-adjusting: accessed nodes move to root.
+Use zig, zig-zig, and zig-zag rotations.
+Amortized O(log n) with excellent cache performance.
+"""
+
+# Specialized Structures Section
+[[exercises]]
+name = "suffix01"
+path = "exercises/11_specialized_structures/01_suffix_array.py"
+mode = "test"
+hint = """
+Suffix Array stores sorted suffixes for efficient string operations.
+Build in O(n log n), search patterns in O(m log n).
+Essential for DNA sequence analysis and text indexing.
+"""
+
+[[exercises]]
+name = "kdtree01"
+path = "exercises/11_specialized_structures/02_kd_tree.py"
+mode = "test"
+hint = """
+K-D Tree organizes k-dimensional points for spatial queries.
+Alternate splitting dimension at each level.
+Perfect for nearest neighbor and range searches.
+"""
+
+[[exercises]]
+name = "rope01"
+path = "exercises/11_specialized_structures/03_rope.py"
+mode = "test"
+hint = """
+Rope efficiently handles large strings with O(log n) operations.
+Concat is O(1), insert/delete are O(log n).
+Used in text editors like Vim and Emacs.
+"""
+
+[[exercises]]
+name = "merkle01"
+path = "exercises/11_specialized_structures/04_merkle_tree.py"
+mode = "test"
+hint = """
+Merkle Tree enables cryptographic verification with O(log n) proofs.
+Each parent hash combines children hashes.
+Foundation of blockchain and Git.
+"""
+
+[[exercises]]
+name = "ahocorasick01"
+path = "exercises/11_specialized_structures/05_aho_corasick.py"
+mode = "test"
+hint = """
+Aho-Corasick finds multiple patterns in O(n + z) time.
+Build automaton from trie with failure links.
+Used in antivirus and intrusion detection systems.
+"""
+
+[[exercises]]
+name = "countmin01"
+path = "exercises/11_specialized_structures/06_count_min_sketch.py"
+mode = "test"
+hint = """
+Count-Min Sketch estimates frequencies in streams.
+Uses d×w array with d hash functions.
+Never underestimates, bounded overestimation.
+"""
+
+[[exercises]]
+name = "radix01"
+path = "exercises/11_specialized_structures/07_radix_tree.py"
+mode = "test"
+hint = """
+Radix Tree compresses trie by merging single-child nodes.
+Edges labeled with strings, not characters.
+Efficient for IP routing and memory-constrained systems.
+"""
+
+[[exercises]]
+name = "cartesian01"
+path = "exercises/11_specialized_structures/08_cartesian_tree.py"
+mode = "test"
+hint = """
+Cartesian Tree combines BST (by index) and heap (by value).
+Build in O(n) using stack-based algorithm.
+Solves Range Minimum Query in O(log n).
+"""
