@@ -418,6 +418,10 @@ class BuildAndProbeChecker(CheckerBase):
                 if r.returncode != 0:
                     return CheckResult(False, "CMake 配置失败", (r.stdout + r.stderr)[-3000:])
             r = self._cmake(["--build", "--preset", self.preset, "--target", self.exercise.name], timeout=180)
+            if r.returncode != 0 and "unknown target" in r.stdout + r.stderr:
+                # A chapter directory was added after the tree was configured: re-glob and retry
+                self._cmake(["--preset", self.preset], timeout=120)
+                r = self._cmake(["--build", "--preset", self.preset, "--target", self.exercise.name], timeout=180)
         except FileNotFoundError:
             return CheckResult(False, "找不到 cmake，请先安装工具链（见项目 README 或 .devcontainer/systems）")
         except subprocess.TimeoutExpired:
