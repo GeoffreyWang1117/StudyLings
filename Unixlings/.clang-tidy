@@ -1,0 +1,8 @@
+# clang-tidy -p build/dev exercises/01_file_io/fileio1_cat.c
+Checks: >
+  bugprone-*,
+  cert-*,
+  concurrency-mt-unsafe,
+  clang-analyzer-*,
+  -bugprone-easily-swappable-parameters,
+  -cert-err33-c

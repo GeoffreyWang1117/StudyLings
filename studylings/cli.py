@@ -152,11 +152,14 @@ def create_cli(config: ProjectConfig) -> click.Group:
             console.print(f"\n[cyan]检测到文件变化: {changed_path.name}[/cyan]\n")
 
             # Find the exercise that matches this file
-            matched_ex = None
-            for ex in Exercise.discover_all(config):
-                if ex.path == changed_path or changed_path.is_relative_to(ex.path.parent):
-                    matched_ex = ex
-                    break
+            # Exact file match first: several exercises may share one chapter directory
+            all_exercises = Exercise.discover_all(config)
+            matched_ex = next((ex for ex in all_exercises if ex.path == changed_path), None)
+            if matched_ex is None:
+                for ex in all_exercises:
+                    if changed_path.is_relative_to(ex.path.parent):
+                        matched_ex = ex
+                        break
 
             if matched_ex is None:
                 # Fallback: run current incomplete exercise
@@ -329,7 +332,7 @@ def _run_and_check(exercise: Exercise, config: ProjectConfig) -> bool:
             if result.message:
                 console.print(f"[red]{result.message}[/red]")
 
-    elif config.validation_mode == ValidationMode.COMPILE_AND_RUN:
+    elif config.validation_mode in (ValidationMode.COMPILE_AND_RUN, ValidationMode.BUILD_AND_PROBE):
         checker = get_checker(exercise, config)
         result = checker.check(verbose=True)
         show_check_result(result, exercise.name, config)

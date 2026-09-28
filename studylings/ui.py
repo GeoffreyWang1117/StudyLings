@@ -3,6 +3,7 @@ Rich terminal output helpers for studylings projects.
 """
 
 from rich.console import Console
+from rich.markup import escape
 from rich.panel import Panel
 from rich.progress import BarColumn, Progress as RichProgress, TextColumn
 from rich.table import Table
@@ -140,11 +141,11 @@ def show_check_result(result, exercise_name: str, config: ProjectConfig):
             )
         )
         if result.details:
-            console.print(result.details)
+            console.print(escape(result.details))
     else:
         console.print(
             Panel(
-                f"[red]✗ {result.message}[/red]" + (f"\n{result.details}" if result.details else ""),
+                f"[red]✗ {escape(result.message)}[/red]" + (f"\n{escape(result.details)}" if result.details else ""),
                 title="失败",
                 border_style="red",
             )

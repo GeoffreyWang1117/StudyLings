@@ -4,6 +4,7 @@ Pluggable validation strategies for studylings projects.
 
 import ast
 import importlib.util
+import os
 import subprocess
 import sys
 import traceback
@@ -389,6 +390,99 @@ class CompileAndRunChecker(CheckerBase):
         return CheckResult(True, "验证通过", detail)
 
 
+class BuildAndProbeChecker(CheckerBase):
+    """Builds one CMake target, then probes the binary from outside with pytest.
+
+    Used by Unixlings/Netlings: systems behaviour (signals, fds, zombies, sockets)
+    cannot be judged by comparing stdout, so each exercise has a probe at
+    tests/<chapter>/test_<name>.py that drives the program like a real user would.
+    """
+
+    def __init__(self, exercise: Exercise, config: ProjectConfig, preset: Optional[str] = None):
+        super().__init__(exercise, config)
+        self.preset = preset or os.environ.get("STUDYLINGS_PRESET") or config.cmake_preset
+        root = config.project_root
+        self.build_dir = root / "build" / self.preset
+
+    def _cmake(self, args: list, timeout: int) -> subprocess.CompletedProcess:
+        return subprocess.run(
+            ["cmake", *args], cwd=self.config.project_root,
+            capture_output=True, text=True, timeout=timeout,
+        )
+
+    def build(self) -> CheckResult:
+        try:
+            if not (self.build_dir / "CMakeCache.txt").exists():
+                r = self._cmake(["--preset", self.preset], timeout=120)
+                if r.returncode != 0:
+                    return CheckResult(False, "CMake 配置失败", (r.stdout + r.stderr)[-3000:])
+            r = self._cmake(["--build", "--preset", self.preset, "--target", self.exercise.name], timeout=180)
+        except FileNotFoundError:
+            return CheckResult(False, "找不到 cmake，请先安装工具链（见项目 README 或 .devcontainer/systems）")
+        except subprocess.TimeoutExpired:
+            return CheckResult(False, "编译超时")
+        if r.returncode != 0:
+            lines = [l for l in (r.stdout + r.stderr).splitlines() if not l.startswith("[")]
+            return CheckResult(False, "编译失败", "\n".join(lines[-40:]))
+        return CheckResult(True, "编译通过")
+
+    def binary(self) -> Path:
+        return self.build_dir / "bin" / self.exercise.name
+
+    def probe_file(self) -> Path:
+        tests = self.config.project_root / (self.config.tests_dir or "tests")
+        return tests / self.exercise.chapter / f"test_{self.exercise.name}.py"
+
+    def probe(self) -> CheckResult:
+        probe = self.probe_file()
+        env = dict(os.environ)
+        suite_root = str(Path(__file__).resolve().parent.parent)
+        env["PYTHONPATH"] = os.pathsep.join(filter(None, [suite_root, env.get("PYTHONPATH")]))
+        env["SL_BIN"] = str(self.binary())
+        env["SL_BUILD_DIR"] = str(self.build_dir)
+
+        if not probe.exists():
+            r = subprocess.run([str(self.binary())], capture_output=True, text=True,
+                               timeout=self.config.run_timeout, env=env)
+            if r.returncode != 0:
+                return CheckResult(False, f"运行失败 (exit {r.returncode})", (r.stdout + r.stderr)[-3000:])
+            return CheckResult(True, "运行通过", r.stdout[-2000:])
+
+        cmd = [sys.executable, "-m", "pytest", "-q", "--no-header", "-rs", "--tb=short",
+               "-p", "no:cacheprovider", str(probe)]
+        try:
+            r = subprocess.run(cmd, cwd=self.config.project_root, capture_output=True,
+                               text=True, timeout=max(120, self.config.run_timeout * 6), env=env)
+        except subprocess.TimeoutExpired:
+            return CheckResult(False, "测试超时（程序可能卡死：死锁、忘记关闭管道写端、阻塞在 accept/read？）")
+        out = (r.stdout + r.stderr).strip()
+        summary = out.splitlines()[-1] if out else ""
+        if r.returncode == 0 and "passed" not in summary and "skipped" in summary:
+            return CheckResult(False, "环境不满足，测试被跳过（见下方原因）", out[-3000:])
+        if r.returncode != 0:
+            return CheckResult(False, "行为测试未通过", out[-4000:])
+        return CheckResult(True, "行为测试通过", summary)
+
+    def check(self, verbose: bool = True) -> CheckResult:
+        result = self.build()
+        if not result:
+            return result
+        result = self.probe()
+        if not result:
+            return result
+
+        # Rustlings semantics: passing is not enough, the learner removes the marker to move on
+        content = self.exercise.path.read_text(encoding="utf-8")
+        for marker in self.config.incomplete_markers:
+            if f"{self.config.comment_prefix} {marker}" in content:
+                return CheckResult(
+                    False,
+                    f"编译和测试都通过了！删除 '{self.config.comment_prefix} {marker}' 这一行以进入下一题",
+                    result.details,
+                )
+        return result
+
+
 def get_checker(exercise: Exercise, config: ProjectConfig) -> CheckerBase:
     """Factory function to get the appropriate checker."""
     if config.validation_mode == ValidationMode.TEST_FILE:
@@ -397,5 +491,7 @@ def get_checker(exercise: Exercise, config: ProjectConfig) -> CheckerBase:
         return VerifyFuncChecker(exercise, config)
     elif config.validation_mode == ValidationMode.COMPILE_AND_RUN:
         return CompileAndRunChecker(exercise, config)
+    elif config.validation_mode == ValidationMode.BUILD_AND_PROBE:
+        return BuildAndProbeChecker(exercise, config)
     else:
         raise ValueError(f"Unknown validation mode: {config.validation_mode}")

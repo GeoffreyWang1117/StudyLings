@@ -14,6 +14,7 @@ class ValidationMode(enum.Enum):
     TEST_FILE = "test_file"           # External test files (study-Economy style)
     VERIFY_FUNC = "verify_func"       # Embedded verify() + markers (TodayPhysics style)
     COMPILE_AND_RUN = "compile_and_run"  # TODO/??? markers + cmake build (Vulkan-Study style)
+    BUILD_AND_PROBE = "build_and_probe"  # cmake --build one target + external pytest probe (Unixlings/Netlings)
 
 
 @dataclass
@@ -37,6 +38,8 @@ class ProjectConfig:
     incomplete_markers: list = field(default_factory=lambda: ["I AM NOT DONE"])
     placeholder_markers: list = field(default_factory=lambda: [])  # e.g. ["/* ??? */"]
     run_timeout: int = 10              # seconds for execution timeout
+    cmake_preset: str = "dev"           # for BUILD_AND_PROBE mode (CMakePresets.json)
+    hints_dir: Optional[str] = None     # for BUILD_AND_PROBE mode: hints/<chapter>/<name>.md
 
     def get_exercises_path(self) -> Path:
         return self.project_root / self.exercises_dir
@@ -75,7 +78,13 @@ class Exercise:
                 continue
             chapter_name = chapter_dir.name
 
-            if config.file_extension in (".cpp", ".cu", ".c"):
+            if config.validation_mode == ValidationMode.BUILD_AND_PROBE:
+                # One exercise per source file; the file stem is the build target name
+                for ex_file in sorted(chapter_dir.glob(f"*{config.file_extension}")):
+                    if ex_file.name.startswith("_"):
+                        continue
+                    exercises.append(cls._from_probe_file(ex_file, chapter_name, config))
+            elif config.file_extension in (".cpp", ".cu", ".c"):
                 # C/C++/CUDA exercises: each directory has a main file
                 for main_name in [f"main{config.file_extension}", "main.cpp"]:
                     main_file = chapter_dir / main_name
@@ -138,6 +147,27 @@ class Exercise:
             # study-Economy style: metadata in comments
             ex._parse_comment_metadata(content, config.comment_prefix)
 
+        return ex
+
+    @classmethod
+    def _from_probe_file(cls, filepath: Path, chapter: str, config: ProjectConfig) -> "Exercise":
+        """Parse a BUILD_AND_PROBE exercise: `// KEY: value` header + hints/<chapter>/<name>.md."""
+        ex = cls(name=filepath.stem, path=filepath, chapter=chapter)
+        ex.topic = config.chapters.get(chapter, chapter)
+        try:
+            content = filepath.read_text(encoding="utf-8")[:3000]
+        except Exception:
+            return ex
+        ex._parse_comment_metadata(content, config.comment_prefix)
+
+        if config.hints_dir:
+            hint_file = config.project_root / config.hints_dir / chapter / f"{ex.name}.md"
+            if hint_file.exists():
+                # Each "## " section is one progressive hint level
+                sections = re.split(r"^## .*$", hint_file.read_text(encoding="utf-8"), flags=re.M)
+                hints = [s.strip() for s in sections[1:] if s.strip()]
+                if hints:
+                    ex.hints = hints
         return ex
 
     @classmethod

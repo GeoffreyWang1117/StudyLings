@@ -17,6 +17,7 @@ setup(
         "click>=8.1.0",
         "rich>=13.0.0",
         "watchdog>=3.0.0",
+        "pytest>=8.0.0",  # behaviour probes for Unixlings / Netlings
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",

@@ -32,6 +32,8 @@ PROJECTS = [
     ("ADM-algorithms", "admlings"),
     ("Traditional-Important-Algorithms", "algolings"),
     ("Asynchronous-Programming-Learning", "asynclings"),
+    ("Unixlings", "unixlings"),
+    ("Netlings", "netlings"),
 ]
 
 

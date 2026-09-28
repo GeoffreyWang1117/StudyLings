@@ -25,6 +25,8 @@ Learn by doing — fill in the blanks, fix the code, watch it pass. Inspired by 
 | **MPlings** | 26 | C++ | Multi-processor concurrent programming |
 | **Vulkanlings** | 20 | C++ | Vulkan graphics API |
 
+New systems track: **[Unixlings](Unixlings/)** (APUE: file/process/signal/thread) and **[Netlings](Netlings/)** (UNP sockets → epoll → io_uring → eBPF/XDP → 25GbE → RDMA) rebuild Stevens' classics in C23 with a 2026 toolchain.
+
 ## Quick Start
 
 ```bash

@@ -1,0 +1,32 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 28, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "dev",
+      "displayName": "Exercises (ASan+UBSan, TSan for thread chapters)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/dev",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug", "SL_SOURCE_DIR": "exercises" }
+    },
+    {
+      "name": "nosan",
+      "displayName": "Exercises without sanitizers (for valgrind / perf / strace experiments)",
+      "inherits": "dev",
+      "binaryDir": "${sourceDir}/build/nosan",
+      "cacheVariables": { "SL_SANITIZE": "" }
+    },
+    {
+      "name": "solutions",
+      "displayName": "Reference solutions (maintainers)",
+      "inherits": "dev",
+      "binaryDir": "${sourceDir}/build/solutions",
+      "cacheVariables": { "SL_SOURCE_DIR": "solutions" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "dev", "configurePreset": "dev" },
+    { "name": "nosan", "configurePreset": "nosan" },
+    { "name": "solutions", "configurePreset": "solutions" }
+  ]
+}
