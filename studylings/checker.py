@@ -18,10 +18,11 @@ from .exercise import Exercise, ProjectConfig, ValidationMode
 class CheckResult:
     """Result of checking an exercise."""
 
-    def __init__(self, success: bool, message: str = "", details: str = ""):
+    def __init__(self, success: bool, message: str = "", details: str = "", skipped: bool = False):
         self.success = success
         self.message = message
         self.details = details
+        self.skipped = skipped  # environment lacks something (root, NIC, kernel feature)
 
     def __bool__(self):
         return self.success
@@ -458,7 +459,7 @@ class BuildAndProbeChecker(CheckerBase):
         out = (r.stdout + r.stderr).strip()
         summary = out.splitlines()[-1] if out else ""
         if r.returncode == 0 and "passed" not in summary and "skipped" in summary:
-            return CheckResult(False, "环境不满足，测试被跳过（见下方原因）", out[-3000:])
+            return CheckResult(False, "环境不满足，测试被跳过（见下方原因）", out[-3000:], skipped=True)
         if r.returncode != 0:
             return CheckResult(False, "行为测试未通过", out[-4000:])
         return CheckResult(True, "行为测试通过", summary)

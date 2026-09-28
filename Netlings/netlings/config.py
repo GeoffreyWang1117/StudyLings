@@ -29,8 +29,11 @@ config = ProjectConfig(
         "05_unix_socket": "N05 Unix domain socket (UNP 15)",
         "06_mmap_shm": "N06 mmap 与共享内存",
         "07_pthread_sync": "N07 pthread 同步（服务器视角）",
-        # Roadmap (see README): 08_io_uring, 09_netns_tc, 10_ebpf_xdp,
-        # 11_connectx_25gbe, 12_rdma_roce
+        "08_io_uring": "N08 io_uring",
+        "09_netns_tc": "N09 network namespace / tc",
+        "10_ebpf_xdp": "N10 eBPF / XDP（需要 root）",
+        "11_connectx_25gbe": "N11 25GbE ConnectX 调优（真实网卡）",
+        "12_rdma_roce": "N12 RDMA / RoCE（真实网卡或 Soft-RoCE）",
     },
     banner=r"""
     ███╗   ██╗███████╗████████╗██╗     ██╗███╗   ██╗ ██████╗ ███████╗

@@ -18,9 +18,12 @@ jobs:
       - name: Install toolchain
         run: |
           sudo apt-get update
-          sudo apt-get install -y ninja-build strace
+          sudo apt-get install -y ninja-build strace clang iproute2 ethtool \
+            liburing-dev libbpf-dev libibverbs-dev librdmacm-dev
+          sudo modprobe sch_netem || true
           # GitHub runners ship high ASLR entropy, which older TSan runtimes reject
           sudo sysctl -w vm.mmap_rnd_bits=28
-          pip install -e .
+          sudo pip install -e . || sudo pip install --break-system-packages -e .
       - name: Every solution passes, every untouched exercise fails
-        run: python -m studylings.selfcheck ${{ matrix.project }} -j 2
+        # root: Netlings N09+ build network namespaces and load BPF programs (hardware chapters skip)
+        run: sudo -E env "PATH=$PATH" python -m studylings.selfcheck ${{ matrix.project }} -j 2

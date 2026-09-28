@@ -32,6 +32,7 @@ def check_one(ex, config):
     if r:
         r = sol.probe()
     solution_ok = bool(r)
+    solution_skipped = r.skipped
     solution_msg = "" if r else f"{r.message}\n{r.details}"
 
     dev = BuildAndProbeChecker(ex, config, preset="dev")
@@ -39,7 +40,7 @@ def check_one(ex, config):
     if d:
         d = dev.probe()
     exercise_fails = not d
-    return ex, solution_ok, solution_msg, exercise_fails, d.message
+    return ex, solution_ok, solution_skipped, solution_msg, exercise_fails, d.message
 
 
 def main():
@@ -58,16 +59,23 @@ def main():
     for preset in ("solutions", "dev"):
         BuildAndProbeChecker(exercises[0], config, preset=preset).build()
 
-    bad = 0
+    bad = skipped = 0
     with ThreadPoolExecutor(max_workers=args.jobs) as pool:
-        for ex, sol_ok, sol_msg, ex_fails, ex_msg in pool.map(lambda e: check_one(e, config), exercises):
+        for ex, sol_ok, sol_skip, sol_msg, ex_fails, ex_msg in pool.map(lambda e: check_one(e, config), exercises):
+            if sol_skip:
+                # Hardware / privilege dependent: cannot be judged here, not counted as broken
+                skipped += 1
+                reason = next((l.strip() for l in sol_msg.splitlines() if "SKIPPED" in l), "")
+                print(f"[{'SKIP':>13}] {ex.chapter}/{ex.name}  {reason}", flush=True)
+                continue
             status = ("OK " if sol_ok else "SOL") + ("" if ex_fails else " EX-PASSES")
             print(f"[{status:>13}] {ex.chapter}/{ex.name}  (exercise: {ex_msg})", flush=True)
             if not sol_ok:
                 print("    " + sol_msg.replace("\n", "\n    "))
             if not sol_ok or not ex_fails:
                 bad += 1
-    print(f"\n{len(exercises) - bad}/{len(exercises)} exercises healthy")
+    checked = len(exercises) - skipped
+    print(f"\n{checked - bad}/{checked} exercises healthy, {skipped} skipped (environment)")
     sys.exit(1 if bad else 0)
 
 
