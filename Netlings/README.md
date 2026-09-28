@@ -17,15 +17,15 @@ N06 mmap / 共享内存                           数据库、零拷贝、跨进
         ↓
 N07 pthread 同步（服务器视角）                 线程池、读写锁、原子操作、robust mutex
         ↓
-N08 io_uring                                  ─┐
-        ↓                                        │
-N09 network namespace / tc                       │  路线图（下一批）
-        ↓                                        │
-N10 eBPF / XDP                                   │
-        ↓                                        │
-N11 25GbE ConnectX                               │
-        ↓                                        │
-N12 RDMA / RoCE                               ─┘
+N08 io_uring                                  tokio-uring、Seastar、TigerBeetle
+        ↓
+N09 network namespace / tc                    容器网络、CNI、流量整形、TCP 行为实验
+        ↓
+N10 eBPF / XDP                                Cilium、Katran、Cloudflare DDoS 防护
+        ↓
+N11 25GbE ConnectX                            网卡队列、RSS、IRQ 绑核、GSO/GRO
+        ↓
+N12 RDMA / RoCE                               内核旁路：verbs、RC QP、rdma_cm
 ```
 
 ## 选材原则
@@ -53,48 +53,30 @@ python -m netlings watch
 探针扮演客户端或对端：比如一个字节一个字节地发包来测试分帧，或者故意不读数据来测试背压，
 还会把 accept 队列塞满、造出本地"黑洞"来测试 connect 超时。
 
-## 已完成章节
+## 章节
 
-| 章 | 内容 |
-|---|---|
-| **N01 TCP socket** | 多地址回退的客户端、双栈监听与 TIME_WAIT、长度前缀分帧、shutdown 半关闭、复现 Nagle + 延迟 ACK 卡顿 |
-| **N02 UDP** | 双栈 echo 与消息边界、connected UDP + 超时重传（DNS 客户端的做法）、手写 DNS 报文与名字压缩 |
-| **N03 select / poll** | select 多客户端、poll 聊天室、非阻塞 connect + 超时 |
-| **N04 epoll** | 水平触发、边沿触发（读空到 EAGAIN）、timerfd + eventfd 反应堆、写缓冲与 EPOLLOUT 背压 |
-| **N05 Unix domain socket** | 路径与抽象命名空间、SCM_RIGHTS 传递 fd、SO_PEERCRED 认证 |
-| **N06 mmap / 共享内存** | mmap 扫描文件、跨进程 SPSC ring（acquire/release）、memfd + seals |
-| **N07 pthread 同步** | 线程池与优雅关闭、读写锁缓存、原子统计与发布、进程间 robust mutex |
+| 章 | 内容 | 环境 |
+|---|---|---|
+| **N01 TCP socket** | 多地址回退的客户端、双栈监听与 TIME_WAIT、长度前缀分帧、shutdown 半关闭、复现 Nagle + 延迟 ACK 卡顿 | 普通用户 |
+| **N02 UDP** | 双栈 echo 与消息边界、connected UDP + 超时重传、手写 DNS 报文与名字压缩 | 普通用户 |
+| **N03 select / poll** | select 多客户端、poll 聊天室、非阻塞 connect + 超时 | 普通用户 |
+| **N04 epoll** | 水平触发、边沿触发（读空到 EAGAIN）、timerfd + eventfd 反应堆、EPOLLOUT 背压 | 普通用户 |
+| **N05 Unix domain socket** | 路径与抽象命名空间、SCM_RIGHTS 传递 fd、SO_PEERCRED | 普通用户 |
+| **N06 mmap / 共享内存** | mmap 扫描文件、跨进程 SPSC ring、memfd + seals | 普通用户 |
+| **N07 pthread 同步** | 线程池、读写锁、原子统计与发布、robust mutex | 普通用户 |
+| **N08 io_uring** | QD=8 批量读、accept/recv/send 服务器、multishot + provided buffer ring、linked timeout、registered files + SQPOLL | 普通用户（容器需放开 seccomp） |
+| **N09 netns / tc** | 无特权 unshare、手写 rtnetlink 创建 veth、TCP_INFO（C 版 `ss -ti`）、按 socket 切换 BBR/CUBIC、经过路由器的 PMTU 发现 | root；netem 实验需 `sch_netem` |
+| **N10 eBPF / XDP** | XDP 按协议计数（校验器边界检查）、XDP UDP 防火墙、tracepoint + ringbuf 追踪 TCP 状态机、tc egress 流量统计 | root |
+| **N11 25GbE ConnectX** | ETHTOOL_GLINKSETTINGS、队列/ring/RSS 间接表、SO_REUSEPORT + CBPF 按 CPU 分发、IRQ 绑核计划、UDP GSO/GRO + sendmmsg 吞吐 | 部分可在 veth/lo 上做；完整需要 ConnectX |
+| **N12 RDMA / RoCE** | 设备与 RoCE v2 GID、RC QP 状态机 ping-pong、RDMA WRITE_WITH_IMM / READ、rdma_cm 建连 | ConnectX 或 Soft-RoCE（`rdma_rxe`） |
 
-## 路线图：N08–N12
+N08–N12 在需要的环境不满足时会自动跳过，并说明如何满足。
+真实网卡相关的环境变量：`NETLINGS_IFACE`（ConnectX 网卡名）、`NETLINGS_PEER_IP`（对端主机）、
+`NETLINGS_RDMA_DEV`（如 `mlx5_0`、`rxe0`）、`NETLINGS_RDMA_GID_INDEX`。
+`tools/hwcheck.sh` 会检查本机环境，并告诉你该 export 什么。
 
-这几章会用到特权、专用内核特性和真实硬件。探针会先检测环境，条件不满足时 `skip` 并说明原因。
-
-### N08 io_uring
-liburing；用 multishot accept/recv 和 provided buffer ring 写 echo 服务器；registered files/buffers；
-SQPOLL；`IORING_OP_SEND_ZC` 零拷贝发送；与 N04 的 epoll 版本做同机压测对比。
-（Docker 默认的 seccomp 会拦截 io_uring，Dev Container 已设置 `seccomp=unconfined`。）
-
-### N09 network namespace / tc
-不需要 root：用 `unshare -Urn` 搭拓扑，包括 veth 对、bridge、`client — router — server` 三节点；
-`tc netem` 注入延迟、丢包、乱序；`tc fq`/`tbf` 做整形；用 `ss -ti` 观察 RTO 和 cwnd；
-iperf3 对比 CUBIC 与 BBR；在丢包链路上复现 TCP 重传退避。
-
-### N10 eBPF / XDP
-libbpf + CO-RE + `bpftool gen skeleton`；用 bpftrace 追踪 `tcp:tcp_retransmit_skb`；
-在 veth 上跑 XDP 程序（先 generic 模式，再用 BPF map 统计 / 丢弃 / 重定向）；tc-bpf 出向过滤；
-最后配合 N11，在 mlx5 上跑 native XDP。
-
-### N11 25GbE ConnectX
-`ethtool -l/-L`（队列）、`-X`（RSS 间接表）、`-K`（TSO/GRO/LRO）、`-C`（中断合并）、`-G`（ring 大小）；
-IRQ 亲和与 NUMA 绑核；RPS/RFS/XPS；`SO_REUSEPORT` + `SO_INCOMING_CPU`；`SO_BUSY_POLL`；
-用 iperf3 / sockperf / `perf` 找瓶颈，目标是单流和多流跑满 25 Gbit/s。
-网卡名通过环境变量 `NETLINGS_IFACE` 指定。
-
-### N12 RDMA / RoCE
-rdma-core / libibverbs：查询设备和 GID，建立 PD / MR / CQ / QP，走完 QP 状态机 RESET→INIT→RTR→RTS；
-RC 上的 SEND/RECV、RDMA WRITE/READ；用 rdma_cm 建连；perftest（`ib_write_bw` / `ib_send_lat`）做基线。
-没有硬件时，先在 veth 上用 **Soft-RoCE（rdma_rxe）** 完成所有功能题；有 ConnectX 时再做 RoCE v2 的
-GID 选择、PFC/ECN 无损配置与 DCQCN 观察。
+> **硬件验证状态**：N11/N12 里依赖真实网卡的部分（尤其是 RDMA 的收发路径）只在无网卡的机器上编译过、
+> 用合成输入做过单元自测，还需要在 ConnectX 机器上验证。交接说明见 [docs/handoff/README.md](docs/handoff/README.md)。
 
 ## 维护者
 
