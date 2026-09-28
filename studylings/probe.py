@@ -12,6 +12,7 @@ Import from a project's tests/conftest.py:
 
 from __future__ import annotations
 
+import errno
 import os
 import queue
 import re
@@ -200,7 +201,7 @@ def start(exe, *args, **kw) -> Proc:
 
 
 def free_port() -> int:
-    """A TCP/UDP port that is currently free on both 127.0.0.1 and ::1."""
+    """A TCP port that is currently free on 127.0.0.1 and (when the host has IPv6) on ::1."""
     for _ in range(50):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind(("127.0.0.1", 0))
@@ -208,7 +209,9 @@ def free_port() -> int:
         try:
             with socket.socket(socket.AF_INET6, socket.SOCK_STREAM) as s6:
                 s6.bind(("::1", port))
-        except OSError:
+        except OSError as e:
+            if e.errno in (errno.EAFNOSUPPORT, errno.EADDRNOTAVAIL):
+                return port  # no IPv6 on this host (common in containers): the v4 check is enough
             continue
         return port
     pytest.fail("找不到空闲端口")
