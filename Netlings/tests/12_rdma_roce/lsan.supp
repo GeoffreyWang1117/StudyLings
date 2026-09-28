@@ -1,0 +1,8 @@
+# LeakSanitizer suppressions for N12: rdma-core keeps some provider/driver state for the
+# lifetime of the process (dlopen'ed providers, cached device lists). These are not learner leaks.
+leak:libibverbs.so
+leak:librdmacm.so
+leak:libmlx5.so
+leak:librxe
+leak:libnl-3.so
+leak:libnl-route-3.so
