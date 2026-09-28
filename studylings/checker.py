@@ -448,7 +448,7 @@ class BuildAndProbeChecker(CheckerBase):
                 return CheckResult(False, f"运行失败 (exit {r.returncode})", (r.stdout + r.stderr)[-3000:])
             return CheckResult(True, "运行通过", r.stdout[-2000:])
 
-        cmd = [sys.executable, "-m", "pytest", "-q", "--no-header", "-rs", "--tb=short",
+        cmd = [sys.executable, "-m", "pytest", "-q", "-x", "--no-header", "-rs", "--tb=short",
                "-p", "no:cacheprovider", str(probe)]
         try:
             r = subprocess.run(cmd, cwd=self.config.project_root, capture_output=True,
